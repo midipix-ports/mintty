@@ -1,3 +1,5 @@
+#include <stdint.h>
+
 #define MAX_PATH	2048
 
 #define	CNUL		0
@@ -34,3 +36,18 @@
 #define HAS_REAL_PASSWD_STRUCT	0
 #define HAS_PW_SHELL		0
 #define HAS_SUPPORTED_APPID	0
+
+static inline char *host_create_path_posix_to_ansi(const char *from)
+{
+	return 0;
+}
+
+static inline uint16_t *host_create_path_posix_to_utf16(const char *from)
+{
+	return 0;
+}
+
+static inline char *host_create_path_utf16_to_posix(const uint16_t *from)
+{
+	return 0;
+}
