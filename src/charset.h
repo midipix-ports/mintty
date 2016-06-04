@@ -1,12 +1,6 @@
 #ifndef CHARSET_H
 #define CHARSET_H
 
-#if CYGWIN_VERSION_DLL_MAJOR >= 1007
-  #define HAS_LOCALES 1
-#else
-  #define HAS_LOCALES 0
-#endif
-
 static inline wchar
 high_surrogate(xchar xc)
 { return 0xD800 | (((xc - 0x10000) >> 10) & 0x3FF); }

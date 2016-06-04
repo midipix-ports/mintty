@@ -24,3 +24,8 @@
 #define HAS_ASPRINTF	1
 #endif
 
+#if CYGWIN_VERSION_DLL_MAJOR >= 1007
+#define HAS_LOCALES	1
+#else
+#define HAS_LOCALES	0
+#endif
