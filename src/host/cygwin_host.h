@@ -38,8 +38,10 @@
 #endif
 
 #if CYGWIN_VERSION_API_MINOR >= 222
+#define HAS_WSTRING		1
 #define HAS_CW_INT_SETLOCALE	1
 #else
+#define HAS_WSTRING		0
 #define HAS_CW_INT_SETLOCALE	0
 #endif
 
