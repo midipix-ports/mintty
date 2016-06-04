@@ -16,7 +16,7 @@ wstrset(wstring *sp, wstring s)
   *sp = memcpy(renewn((wchar *)*sp, size), s, size * sizeof(wchar));
 }
 
-#if CYGWIN_VERSION_API_MINOR < 70
+#if !HAS_ASPRINTF
 
 int
 vasprintf(char **buf, const char *fmt, va_list va)
@@ -59,14 +59,14 @@ asform(const char *fmt, ...)
 }
 
 
-#if CYGWIN_VERSION_API_MINOR < 74
+#if !HAS_WCTYPE_H
 int iswalnum(wint_t wc) { return wc < 0x100 && isalnum(wc); }
 int iswalpha(wint_t wc) { return wc < 0x100 && isalpha(wc); }
 int iswspace(wint_t wc) { return wc < 0x100 && isspace(wc); }
 #endif
 
 
-#if CYGWIN_VERSION_API_MINOR < 91
+#if !HAS_ARGZ_H
 
 /* Copyright (C) 2002 by  Red Hat, Incorporated. All rights reserved.
  *
@@ -122,7 +122,7 @@ argz_stringify(char *argz, size_t argz_len, int sep)
 }
 #endif
 
-#if CYGWIN_VERSION_API_MINOR < 93
+#if !HAS_PTY
 
 /*-
  * Copyright (c) 1990, 1993
