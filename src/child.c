@@ -16,9 +16,8 @@
 #include <signal.h>
 #include <sys/ioctl.h>
 #include <sys/wait.h>
-#include <sys/cygwin.h>
 
-#if CYGWIN_VERSION_API_MINOR >= 93
+#if HAS_PTY
 #include <pty.h>
 #else
 int forkpty(int *, char *, struct termios *, struct winsize *);
@@ -26,7 +25,7 @@ int forkpty(int *, char *, struct termios *, struct winsize *);
 
 #include <winbase.h>
 
-#if CYGWIN_VERSION_DLL_MAJOR < 1007
+#if NEEDS_EXPLICIT_WINCON_H
 #include <winnls.h>
 #include <wincon.h>
 #include <wingdi.h>
@@ -95,7 +94,7 @@ child_create(char *argv[], struct winsize *winp)
     term_hide_cursor();
   }
   else if (!pid) { // Child process.
-#if CYGWIN_VERSION_DLL_MAJOR < 1007
+#if HAS_CONSOLE_HACK
     // Some native console programs require a console to be attached to the
     // process, otherwise they pop one up themselves, which is rather annoying.
     // Cygwin's exec function from 1.5 onwards automatically allocates a console
@@ -106,7 +105,7 @@ child_create(char *argv[], struct winsize *winp)
     // we need to create the invisible console ourselves. The hack here is not
     // as clever as Cygwin's, with the console briefly flashing up on startup,
     // but it'll do.
-#if CYGWIN_VERSION_DLL_MAJOR == 1005
+#if NEEDS_WINDOWS_VER
     DWORD win_version = GetVersion();
     win_version = ((win_version & 0xff) << 8) | ((win_version >> 8) & 0xff);
     if (win_version >= 0x0601)  // Windows 7 is NT 6.1.
@@ -158,7 +157,7 @@ child_create(char *argv[], struct winsize *winp)
     // If we get here, exec failed.
     fprintf(stderr, "\033[30;41m\033[KFailed to run %s: %s\r\n", cmd, strerror(errno));
 
-#if CYGWIN_VERSION_DLL_MAJOR < 1005
+#if HAS_MESSAGE_SLEEP_BUG
     // Before Cygwin 1.5, the message above doesn't appear if we exit
     // immediately. So have a little nap first.
     usleep(200000);
@@ -322,7 +321,7 @@ child_proc(void)
 
     if (select(win_fd + 1, &fds, 0, 0, timeout_p) > 0) {
       if (pty_fd >= 0 && FD_ISSET(pty_fd, &fds)) {
-#if CYGWIN_VERSION_DLL_MAJOR >= 1005
+#if !HAS_FOUR_BYTES_PTY
         static char buf[4096];
         int len = read(pty_fd, buf, sizeof buf);
 #else
@@ -470,7 +469,7 @@ child_conv_path(wstring wpath)
     if (!*name)
       base = home;
     else {
-#if CYGWIN_VERSION_DLL_MAJOR >= 1005
+#if HAS_FIND_USER_DIRECTORY
       // Find named user's home directory
       struct passwd *pw = getpwnam(name);
       base = (pw ? pw->pw_dir : 0) ?: "";
@@ -482,7 +481,7 @@ child_conv_path(wstring wpath)
     exp_path = asform("%s/%s", base, rest);
   }
   else if (*path != '/') {
-#if CYGWIN_VERSION_DLL_MAJOR >= 1005
+#if HAS_PROC
     // Handle relative paths. Finding the foreground process working directory
     // requires the /proc filesystem, which isn't available before Cygwin 1.5.
 
@@ -508,8 +507,7 @@ child_conv_path(wstring wpath)
   else
     exp_path = path;
 
-# if CYGWIN_VERSION_API_MINOR >= 222
-  // CW_INT_SETLOCALE was introduced in API 0.222
+# if HAS_CW_INT_SETLOCALE
   cygwin_internal(CW_INT_SETLOCALE);
 # endif
   wchar *win_wpath = path_posix_to_win_w(exp_path);
@@ -625,10 +623,9 @@ child_fork(int argc, char *argv[], int moni)
     if (icon_is_from_shortcut)
       setenv("MINTTY_ICON", cs__wcstoutf(cfg.icon), true);
 
-#if CYGWIN_VERSION_DLL_MAJOR >= 1005
+#if HAS_PROC_SELF_EXE
     execv("/proc/self/exe", argv);
 #else
-    // /proc/self/exe isn't available before Cygwin 1.5, so use argv[0] instead.
     // Strip enclosing quotes if present.
     char *path = argv[0];
     int len = strlen(path);
