@@ -20,7 +20,7 @@ shell_exec_thread(void *data)
 {
   wchar *wpath = data;
 
-#ifdef __CYGWIN__
+#if HAS_SYNC_WINENV
   /* Need to sync the Windows environment */
   cygwin_internal (CW_SYNC_WINENV);
 #endif
@@ -441,7 +441,7 @@ paste_hdrop(HDROP drop)
     buf[buf_pos++] = c;
   }
 
-#if CYGWIN_VERSION_API_MINOR >= 222
+#if HAS_CW_INT_SETLOCALE
   // Update Cygwin locale to terminal locale.
   cygwin_internal(CW_INT_SETLOCALE);
 #endif

@@ -5,6 +5,7 @@
 #define HAS_LOCALES	1
 #define HAS_PTY		1
 
+#define HAS_SYNC_WINENV		0
 #define HAS_MESSAGE_SLEEP_BUG	0
 #define HAS_PROC		0
 #define HAS_PROC_SELF_EXE	0

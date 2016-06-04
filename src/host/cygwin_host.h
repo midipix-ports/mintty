@@ -1,6 +1,8 @@
 #include <sys/cygwin.h>
 #include <cygwin/version.h>
 
+#define HAS_SYNC_WINENV	1
+
 #if CYGWIN_VERSION_API_MINOR >= 91
 #define HAS_ARGZ_H	1
 #else
