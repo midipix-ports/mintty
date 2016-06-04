@@ -2,6 +2,7 @@
 #define CHILD_H
 
 #include <termios.h>
+#include <sys/ioctl.h>
 
 extern bool clone_size_token;
 
