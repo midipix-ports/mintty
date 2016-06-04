@@ -1,3 +1,4 @@
+#include <stdint.h>
 #include <sys/cygwin.h>
 #include <cygwin/version.h>
 
@@ -111,4 +112,79 @@
 #define HAS_WCSDUP              1
 #else
 #define HAS_WCSDUP              0
+#endif
+
+#if HAS_CREATE_PATH
+
+static inline char *
+host_create_path_posix_to_ansi(const char *from)
+{
+  return cygwin_create_path(CCP_POSIX_TO_WIN_A, from);
+}
+
+static inline uint16_t *
+host_create_path_posix_to_utf16(const char *from)
+{
+  return cygwin_create_path(CCP_POSIX_TO_WIN_W, from);
+}
+
+static inline char *
+host_create_path_utf16_to_posix(const uint16_t *from)
+{
+  return cygwin_create_path(CCP_WIN_W_TO_POSIX, from);
+}
+
+static inline char *
+path_win_w_to_posix(const wchar * wp)
+{
+  return host_create_path_utf16_to_posix(wp);
+}
+
+static inline wchar *
+path_posix_to_win_w(const char * p)
+{
+  return host_create_path_posix_to_utf16(p);
+}
+
+static inline char * path_posix_to_win_a(const char * p)
+{
+  return host_create_path_posix_to_ansi(p);
+}
+
+#else
+
+#include <winbase.h>
+#include <winnls.h>
+
+static inline char *
+path_win_w_to_posix(const wchar * wp)
+{
+  char * mp = cs__wcstombs(wp);
+  char * p = newn(char, MAX_PATH);
+  cygwin_conv_to_full_posix_path(mp, p);
+  free(mp);
+  p = renewn(p, strlen(p) + 1);
+  return p;
+}
+
+static inline wchar *
+path_posix_to_win_w(const char * p)
+{
+  char ap[MAX_PATH];
+  cygwin_conv_to_win32_path(p, ap);
+  wchar * wp = newn(wchar, MAX_PATH);
+  MultiByteToWideChar(0, 0, ap, -1, wp, MAX_PATH);
+  wp = renewn(wp, wcslen(wp) + 1);
+  return wp;
+}
+
+static inline char *
+path_posix_to_win_a(const char * p)
+{
+  char * ap = newn(char, MAX_PATH);
+  cygwin_conv_to_win32_path(p, ap);
+  ap = renewn(ap, strlen(ap) + 1);
+  return ap;
+}
+
 #endif

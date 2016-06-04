@@ -1,12 +1,6 @@
 #ifndef STD_H
 #define STD_H
 
-#ifdef __midipix__
-#include "host/midipix_host.h"
-#else
-#include "host/cygwin_host.h"
-#endif
-
 //unhide some definitions
 #define _GNU_SOURCE
 
@@ -19,8 +13,18 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <ctype.h>
+#include <stdint.h>
 #include <wchar.h>
 #include <errno.h>
+
+typedef uint32_t xchar; // UTF-32
+typedef uint16_t wchar; // UTF-16
+
+#ifdef __midipix__
+#include "host/midipix_host.h"
+#else
+#include "host/cygwin_host.h"
+#endif
 
 #if HAS_ARGZ_H
 #include <argz.h>
@@ -69,9 +73,6 @@ typedef unsigned short ushort;
 typedef unsigned int uint;
 
 typedef void (*void_fn)(void);
-
-typedef uint xchar;     // UTF-32
-typedef wchar_t wchar;  // UTF-16
 
 typedef const char *string;
 typedef const wchar *wstring;

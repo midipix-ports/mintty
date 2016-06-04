@@ -61,62 +61,6 @@ extern int xcwidth(xchar c);
 
 #endif
 
-
-#if HAS_CW_CREATE_PATH
-
-static inline char *
-path_win_w_to_posix(const wchar * wp)
-{ return cygwin_create_path(CCP_WIN_W_TO_POSIX, wp); }
-
-static inline wchar *
-path_posix_to_win_w(const char * p)
-{ return cygwin_create_path(CCP_POSIX_TO_WIN_W, p); }
-
-static inline char *
-path_posix_to_win_a(const char * p)
-{ return cygwin_create_path(CCP_POSIX_TO_WIN_A, p); }
-
-#elif HAS_CW_CONV_PATH
-
-#include <winbase.h>
-#include <winnls.h>
-
-static inline char *
-path_win_w_to_posix(const wchar * wp)
-{
-  char * mp = cs__wcstombs(wp);
-  char * p = newn(char, MAX_PATH);
-  cygwin_conv_to_full_posix_path(mp, p);
-  free(mp);
-  p = renewn(p, strlen(p) + 1);
-  return p;
-}
-
-static inline wchar *
-path_posix_to_win_w(const char * p)
-{
-  char ap[MAX_PATH];
-  cygwin_conv_to_win32_path(p, ap);
-  wchar * wp = newn(wchar, MAX_PATH);
-  MultiByteToWideChar(0, 0, ap, -1, wp, MAX_PATH);
-  wp = renewn(wp, wcslen(wp) + 1);
-  return wp;
-}
-
-static inline char *
-path_posix_to_win_a(const char * p)
-{
-  char * ap = newn(char, MAX_PATH);
-  cygwin_conv_to_win32_path(p, ap);
-  ap = renewn(ap, strlen(ap) + 1);
-  return ap;
-}
-
-#elif HAS_CREATE_PATH
-
-#endif
-
-
 # ifdef TEST_WCS
 #define wcsdup _wcsdup
 #define wcschr _wcschr
