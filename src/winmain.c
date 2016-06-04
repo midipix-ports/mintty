@@ -25,9 +25,7 @@
 #include <mmsystem.h>  // PlaySound for MSys
 #include <shellapi.h>
 
-#include <sys/cygwin.h>
-
-#if CYGWIN_VERSION_DLL_MAJOR >= 1007
+#if HAS_PROPS_SYS_KEY
 #include <propsys.h>
 #include <propkey.h>
 #endif
@@ -45,7 +43,7 @@ static char **main_argv;
 static int main_argc;
 static ATOM class_atom;
 static bool invoked_from_shortcut = false;
-#if CYGWIN_VERSION_DLL_MAJOR >= 1005
+#if HAS_INVOKED_WITH_APPID
 static bool invoked_with_appid = false;
 #endif
 
@@ -1480,7 +1478,7 @@ warn(char *format, ...)
 static void
 warnw(wstring msg, wstring file, wstring err)
 {
-#if CYGWIN_VERSION_API_MINOR >= 201
+#if HAS_WSTRING
   wstring format = (err && *err) ? L"%s: %ls '%ls':\n%ls" : L"%s: %ls '%ls'";
   wchar mess[wcslen(format) + strlen(main_argv[0]) + wcslen(msg) + wcslen(file) + (err ? wcslen(err) : 0)];
   swprintf(mess, lengthof(mess), format, main_argv[0], msg, file, err);
@@ -1541,7 +1539,7 @@ exit_mintty()
 }
 
 
-#if CYGWIN_VERSION_DLL_MAJOR >= 1005
+#if HAS_ICON_LOCATION
 
 #include <shlobj.h>
 
@@ -1652,7 +1650,7 @@ configure_taskbar()
   setup_jumplist(jump_list_title, jump_list_cmd);
 #endif
 
-#if CYGWIN_VERSION_DLL_MAJOR >= 1007
+#if HAS_SUPPORTED_APPID
   // initial patch (issue #471) contributed by Johannes Schindelin
   wchar * app_id = (wchar *) cfg.app_id;
   wchar * relaunch_icon = (wchar *) cfg.icon;
@@ -1805,12 +1803,12 @@ main(int argc, char *argv[])
 
   // Determine home directory.
   home = getenv("HOME");
-#if CYGWIN_VERSION_DLL_MAJOR >= 1005
+#if HAS_REAL_PASSWD_STRUCT
   // Before Cygwin 1.5, the passwd structure is faked.
   struct passwd *pw = getpwuid(getuid());
 #endif
   home = home ? strdup(home) :
-#if CYGWIN_VERSION_DLL_MAJOR >= 1005
+#if HAS_REAL_PASSWD_STRUCT
     (pw && pw->pw_dir && *pw->pw_dir) ? strdup(pw->pw_dir) :
 #endif
     asform("/home/%s", getlogin());
@@ -1820,7 +1818,7 @@ main(int argc, char *argv[])
   GetStartupInfoW(&sui);
   cfg.window = sui.dwFlags & STARTF_USESHOWWINDOW ? sui.wShowWindow : SW_SHOW;
   cfg.x = cfg.y = CW_USEDEFAULT;
-#if CYGWIN_VERSION_DLL_MAJOR >= 1005
+#if (HAS_ICON_LOCATION && HAS_INVOKED_WITH_APPID)
   invoked_from_shortcut = sui.dwFlags & STARTF_TITLEISLINKNAME;
   invoked_with_appid = sui.dwFlags & STARTF_TITLEISAPPID;
   // shortcut or AppId would be found in sui.lpTitle
@@ -1855,7 +1853,7 @@ main(int argc, char *argv[])
     unsetenv("MINTTY_ICON");
   }
 
-#if CYGWIN_VERSION_DLL_MAJOR >= 1005
+#if HAS_ICON_LOCATION
   if (invoked_from_shortcut) {
     wchar * icon = get_shortcut_icon_location(sui.lpTitle);
 # ifdef debuglog
@@ -2007,7 +2005,7 @@ main(int argc, char *argv[])
     // Look up the user's shell.
     cmd = getenv("SHELL");
     cmd = cmd ? strdup(cmd) :
-#if CYGWIN_VERSION_DLL_MAJOR >= 1005
+#if HAS_PW_SHELL
       (pw && pw->pw_shell && *pw->pw_shell) ? strdup(pw->pw_shell) :
 #endif
       "/bin/sh";
@@ -2047,7 +2045,7 @@ main(int argc, char *argv[])
     if (valid_locale) {
       valid_locale = strdup(valid_locale);
       setlocale(LC_CTYPE, "C.UTF-8");
-# if CYGWIN_VERSION_API_MINOR >= 222
+# if HAS_CW_INT_SETLOCALE
       cygwin_internal(CW_INT_SETLOCALE);  // fix internal locale
 # endif
     }
@@ -2056,7 +2054,7 @@ main(int argc, char *argv[])
 #if HAS_LOCALES
     if (valid_locale) {
       setlocale(LC_CTYPE, valid_locale);
-# if CYGWIN_VERSION_API_MINOR >= 222
+# if HAS_CW_INT_SETLOCALE
       cygwin_internal(CW_INT_SETLOCALE);  // fix internal locale
 # endif
       free(valid_locale);
