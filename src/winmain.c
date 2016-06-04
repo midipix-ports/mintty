@@ -1918,7 +1918,7 @@ main(int argc, char *argv[])
         border_style = strdup(optarg);
       when 'R':
         report_geom = strdup(optarg);
-      when 'u': cfg.utmp = true;
+      when 'u': cfg.futmp = true;
       when '':
         prevent_pinning = true;
         store_taskbar_properties = true;

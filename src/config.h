@@ -116,7 +116,7 @@ typedef struct {
   wstring icon;
   wstring log;
   wstring title;
-  bool utmp;
+  bool futmp;
   char window;
   int x, y;
   bool daemonize;
