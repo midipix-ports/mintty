@@ -1,5 +1,9 @@
 #define MAX_PATH	2048
 
+#define	CNUL		0
+#define	CDEL		0377
+#define CTRL(x)		((x)&037)
+
 #define HAS_ARGZ_H	0
 #define HAS_WCTYPE_H	1
 #define HAS_WCSDUP      1
