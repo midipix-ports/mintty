@@ -2,6 +2,7 @@
 #include <cygwin/version.h>
 
 #define HAS_SYNC_WINENV	1
+#define HAS_CW_CONV_PATH         1
 
 #if CYGWIN_VERSION_API_MINOR >= 91
 #define HAS_ARGZ_H	1
@@ -99,7 +100,15 @@
 #endif
 
 #if CYGWIN_VERSION_API_MINOR >= 181
+#define HAS_CW_CREATE_PATH      1
 #define HAS_EXTRACT_ICON_UTF16	1
 #else
+#define HAS_CW_CREATE_PATH      0
 #define HAS_EXTRACT_ICON_UTF16	0
+#endif
+
+#if CYGWIN_VERSION_API_MINOR >= 207
+#define HAS_WCSDUP              1
+#else
+#define HAS_WCSDUP              0
 #endif

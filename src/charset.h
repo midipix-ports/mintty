@@ -62,9 +62,7 @@ extern int xcwidth(xchar c);
 #endif
 
 
-#ifdef __CYGWIN__
-#include <sys/cygwin.h>
-# if CYGWIN_VERSION_API_MINOR >= 181
+#if HAS_CW_CREATE_PATH
 
 static inline char *
 path_win_w_to_posix(const wchar * wp)
@@ -78,7 +76,8 @@ static inline char *
 path_posix_to_win_a(const char * p)
 { return cygwin_create_path(CCP_POSIX_TO_WIN_A, p); }
 
-# else
+#elif HAS_CW_CONV_PATH
+
 #include <winbase.h>
 #include <winnls.h>
 
@@ -113,10 +112,7 @@ path_posix_to_win_a(const char * p)
   return ap;
 }
 
-# endif
-#else
-
-#warning port to midipix...
+#elif HAS_CREATE_PATH
 
 #endif
 
@@ -128,7 +124,7 @@ path_posix_to_win_a(const char * p)
 #define wcsncmp _wcsncmp
 # endif
 
-#if CYGWIN_VERSION_API_MINOR < 74 || defined(TEST_WCS)
+#if (HAS_WCTYPE_H == 0) || defined(TEST_WCS)
 // needed for MinGW MSYS
 
 #define wcscpy(tgt, src) memcpy(tgt, src, (wcslen(src) + 1) * sizeof(wchar))
@@ -171,7 +167,7 @@ wcsncmp(const wchar * s1, const wchar * s2, int len)
 
 #endif
 
-#if CYGWIN_VERSION_API_MINOR < 207 || defined(TEST_WCS)
+#if (HAS_WCSDUP == 0) || defined(TEST_WCS)
 
 static wchar *
 wcsdup(const wchar * s)

@@ -1,11 +1,14 @@
 #define HAS_ARGZ_H	0
 #define HAS_WCTYPE_H	1
+#define HAS_WCSDUP      1
 #define HAS_STRLCPY	1
 #define HAS_ASPRINTF	1
 #define HAS_LOCALES	1
 #define HAS_PTY		1
 
 #define HAS_SYNC_WINENV		0
+#define HAS_CW_CONV_PATH        0
+#define HAS_CW_CREATE_PATH      0
 #define HAS_MESSAGE_SLEEP_BUG	0
 #define HAS_PROC		0
 #define HAS_PROC_SELF_EXE	0
