@@ -11,7 +11,7 @@
 #include "child.h"
 #include "print.h"
 
-#include <sys/termios.h>
+#include <termios.h>
 
 /* This combines two characters into one value, for the purpose of pairing
  * any modifier byte and the final byte in escape sequences.
