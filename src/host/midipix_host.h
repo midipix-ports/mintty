@@ -51,3 +51,7 @@ static inline char *host_create_path_utf16_to_posix(const uint16_t *from)
 {
 	return 0;
 }
+
+static inline void login(const void *ut)
+{
+}
