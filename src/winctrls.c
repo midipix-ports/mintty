@@ -1311,7 +1311,7 @@ dlg_fontsel_set(control *ctrl, font_spec *fs)
     boldness = lengthof(boldnesses) - 1;
   //char * boldstr = fs->isbold ? "bold, " : "";
   char * boldstr = boldnesses[boldness];
-#if CYGWIN_VERSION_API_MINOR >= 201
+#if HAS_WCTYPE_H
   int wsize = wcslen(fs->name) + strlen(boldstr) + fs->size ? 31 : 17;
   wchar * wbuf = newn(wchar, wsize);
   if (fs->size)
