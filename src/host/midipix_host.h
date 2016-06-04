@@ -1,3 +1,5 @@
+#define MAX_PATH	2048
+
 #define HAS_ARGZ_H	0
 #define HAS_WCTYPE_H	1
 #define HAS_WCSDUP      1
