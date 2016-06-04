@@ -236,7 +236,7 @@ static void
 adjust_font_weights()
 {
   LOGFONTW lf;
-#if CYGWIN_VERSION_API_MINOR >= 201
+#if HAS_WCTYPE_H
   swprintf(lf.lfFaceName, lengthof(lf.lfFaceName), L"%ls", cfg.font.name);
 #else
   if (wcslen(cfg.font.name) < lengthof(lf.lfFaceName))
