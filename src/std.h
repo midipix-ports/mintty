@@ -1,7 +1,11 @@
 #ifndef STD_H
 #define STD_H
 
-#include <cygwin/version.h>
+#ifdef __midipix__
+#include "host/midipix_host.h"
+#else
+#include "host/cygwin_host.h"
+#endif
 
 //unhide some definitions
 #define _GNU_SOURCE
@@ -18,14 +22,14 @@
 #include <wchar.h>
 #include <errno.h>
 
-#if CYGWIN_VERSION_API_MINOR >= 91
+#if HAS_ARGZ_H
 #include <argz.h>
 #else
 int argz_create (char *const argv[], char **argz, size_t *argz_len);
 void argz_stringify (char *argz, size_t argz_len, int sep);
 #endif
 
-#if CYGWIN_VERSION_API_MINOR >= 74
+#if HAS_WCTYPE_H
 #include <wctype.h>
 #else
 int iswalnum(wint_t);
@@ -33,11 +37,11 @@ int iswalpha(wint_t);
 int iswspace(wint_t);
 #endif
 
-#if CYGWIN_VERSION_API_MINOR < 53
+#if !HAS_STRLCPY
 #define strlcpy(dst, src, len) snprintf(dst, len, "%s", src)
 #endif
 
-#if CYGWIN_VERSION_API_MINOR < 70
+#if !HAS_ASPRINTF
 int asprintf(char **, const char *, ...);
 int vasprintf(char **, const char *, va_list);
 #endif
