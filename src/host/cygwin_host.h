@@ -115,6 +115,9 @@
 #define HAS_WCSDUP              0
 #endif
 
+#define host_wcwidth(x) \
+	wcwidth(x)
+
 #define host_conv_to_win32_path(psx_path, win_path, buflen_ignored) \
 	cygwin_conv_to_win32_path(psx_path, win_path)
 

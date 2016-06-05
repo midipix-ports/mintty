@@ -1267,7 +1267,7 @@ term_write(const char *buf, uint len)
 
         // Everything else
         #if HAS_LOCALES
-        int width = wcwidth(wc);
+        int width = host_wcwidth(wc);
         #else
         int width = xcwidth(wc);
         #endif

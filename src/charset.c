@@ -298,7 +298,7 @@ update_locale(void)
   if (valid_default_locale) {
     default_codepage = cs_codepage(nl_langinfo(CODESET));
     default_locale = strdup(set_locale);
-    cs_ambig_wide = wcwidth(0x3B1) == 2;
+    cs_ambig_wide = host_wcwidth(0x3B1) == 2;
   }
   else {
 #endif
@@ -335,7 +335,7 @@ cs_reconfig(void)
       asform("%s%s%s", cfg.locale, *cfg.charset ? "." : "", cfg.charset);
 #if HAS_LOCALES
     if (setlocale(LC_CTYPE, config_locale) &&
-        wcwidth(0x3B1) == 2 && !font_ambig_wide) {
+        host_wcwidth(0x3B1) == 2 && !font_ambig_wide) {
       // Attach "@cjknarrow" to locale if using an ambig-narrow font
       // with an ambig-wide locale setting
       string l = config_locale;
