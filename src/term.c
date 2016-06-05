@@ -282,7 +282,7 @@ term_set_search(wchar * needle)
   term.results.query = needle;
 
   term.results.update_type = FULL_UPDATE;
-  term.results.query_length = wcslen(needle);
+  term.results.query_length = host_wcslen(needle);
 }
 
 void

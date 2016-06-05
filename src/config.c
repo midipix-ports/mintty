@@ -608,8 +608,8 @@ load_theme(wstring theme)
     char rcdir[strlen(home) + strlen(subfolder) + 2];
     sprintf(rcdir, "%s/%s", home, subfolder);
     wchar * rcpat = path_posix_to_win_w(rcdir);
-    int len = wcslen(rcpat);
-    rcpat = renewn(rcpat, len + wcslen(theme_file) + 2);
+    int len = host_wcslen(rcpat);
+    rcpat = renewn(rcpat, len + host_wcslen(theme_file) + 2);
     rcpat[len++] = L'/';
     wcscpy(&rcpat[len], theme_file);
     theme_file = rcpat;
@@ -1051,13 +1051,13 @@ add_file_resources(control *ctrl, wstring pattern)
   char rcdir[strlen(home) + strlen(subfolder) + 2];
   sprintf(rcdir, "%s/%s", home, subfolder);
   wchar * rcpat = path_posix_to_win_w(rcdir);
-  int len = wcslen(rcpat);
-  rcpat = renewn(rcpat, len + wcslen(pattern) + 2);
+  int len = host_wcslen(rcpat);
+  rcpat = renewn(rcpat, len + host_wcslen(pattern) + 2);
   rcpat[len++] = L'/';
   wcscpy(&rcpat[len], pattern);
 
   wstring suf = wcsrchr(pattern, L'.');
-  int sufl = suf ? wcslen(suf) : 0;
+  int sufl = suf ? host_wcslen(suf) : 0;
 
   WIN32_FIND_DATAW ffd;
   HANDLE hFind = FindFirstFileW(rcpat, &ffd);
@@ -1073,7 +1073,7 @@ add_file_resources(control *ctrl, wstring pattern)
       //long s = filesize.QuadPart;
 
       // strip suffix
-      int len = wcslen(ffd.cFileName);
+      int len = host_wcslen(ffd.cFileName);
       if (ffd.cFileName[0] != '.' && ffd.cFileName[len - 1] != '~') {
         ffd.cFileName[len - sufl] = 0;
         dlg_listbox_add_w(ctrl, ffd.cFileName);

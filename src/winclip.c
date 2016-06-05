@@ -118,9 +118,9 @@ win_copy(const wchar *data, uint *attrs, int len)
       MultiByteToWideChar(CP_ACP, MB_ERR_INVALID_CHARS,
                           (char[]){i}, 1, unitab + i, 1);
 
-    char * rtffontname = newn(char, wcslen(cfg.font.name) * 9 + 1);
+    char * rtffontname = newn(char, host_wcslen(cfg.font.name) * 9 + 1);
     char * rtffnpoi = rtffontname;
-    for (uint i = 0; i < wcslen(cfg.font.name); i++)
+    for (uint i = 0; i < host_wcslen(cfg.font.name); i++)
       if (!(cfg.font.name[i] & 0xFF80) && !strchr("\\;{}", cfg.font.name[i]))
         *rtffnpoi++ = cfg.font.name[i];
       else
@@ -500,7 +500,7 @@ static void
 paste_unicode_text(HANDLE data)
 {
   wchar *s = GlobalLock(data);
-  uint l = wcslen(s);
+  uint l = host_wcslen(s);
   term_paste(s, l);
   GlobalUnlock(data);
 }

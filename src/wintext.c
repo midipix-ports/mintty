@@ -239,7 +239,7 @@ adjust_font_weights()
 #if HAS_WCTYPE_H
   swprintf(lf.lfFaceName, lengthof(lf.lfFaceName), L"%ls", cfg.font.name);
 #else
-  if (wcslen(cfg.font.name) < lengthof(lf.lfFaceName))
+  if (host_wcslen(cfg.font.name) < lengthof(lf.lfFaceName))
     wcscpy(lf.lfFaceName, cfg.font.name);
   else
     wcscpy(lf.lfFaceName, L"Lucida Console");

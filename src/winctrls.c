@@ -846,7 +846,7 @@ select_font(winctrl *c)
   lf.lfClipPrecision = CLIP_DEFAULT_PRECIS;
   lf.lfQuality = DEFAULT_QUALITY;
   lf.lfPitchAndFamily = FIXED_PITCH | FF_DONTCARE;
-  if (wcslen(fs.name) < lengthof(lf.lfFaceName))
+  if (host_wcslen(fs.name) < lengthof(lf.lfFaceName))
     wcscpy(lf.lfFaceName, fs.name);
   else
     lf.lfFaceName[0] = 0;
@@ -1176,7 +1176,7 @@ dlg_editbox_set_w(control *ctrl, wstring text)
   }
   else {
     HWND wnd = GetDlgItem(dlg.wnd, c->base_id + 1);
-    int len = wcslen(text);
+    int len = host_wcslen(text);
     wchar * buf = newn(wchar, len + 1);
     int n = SendMessageW(wnd, LB_GETCOUNT, 0, (LPARAM)0);
     for (int i = 0; i < n; i++) {
@@ -1312,7 +1312,7 @@ dlg_fontsel_set(control *ctrl, font_spec *fs)
   //char * boldstr = fs->isbold ? "bold, " : "";
   char * boldstr = boldnesses[boldness];
 #if HAS_WCTYPE_H
-  int wsize = wcslen(fs->name) + strlen(boldstr) + fs->size ? 31 : 17;
+  int wsize = host_wcslen(fs->name) + strlen(boldstr) + fs->size ? 31 : 17;
   wchar * wbuf = newn(wchar, wsize);
   if (fs->size)
     swprintf(wbuf, wsize, L"%ls, %s%d%s", fs->name, boldstr, abs(fs->size),

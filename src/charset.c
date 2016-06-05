@@ -403,7 +403,7 @@ cs_wcntombn(char *s, const wchar *ws, size_t len, size_t wlen)
 int
 cs_wcstombs(char *s, const wchar *ws, size_t len)
 {
-  size_t mbslen = cs_wcntombn(s, ws, len, wcslen(ws));
+  size_t mbslen = cs_wcntombn(s, ws, len, host_wcslen(ws));
   if (mbslen >= len)
     mbslen = len - 1;
   s[mbslen] = '\0';

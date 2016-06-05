@@ -71,7 +71,7 @@ extern int xcwidth(xchar c);
 #if (HAS_WCTYPE_H == 0) || defined(TEST_WCS)
 // needed for MinGW MSYS
 
-#define wcscpy(tgt, src) memcpy(tgt, src, (wcslen(src) + 1) * sizeof(wchar))
+#define wcscpy(tgt, src) memcpy(tgt, src, (host_wcslen(src) + 1) * sizeof(wchar))
 
 static wchar *
 wcschr(const wchar * s, wchar c)
@@ -116,7 +116,7 @@ wcsncmp(const wchar * s1, const wchar * s2, int len)
 static wchar *
 wcsdup(const wchar * s)
 {
-  wchar * dup = newn(wchar, wcslen(s) + 1);
+  wchar * dup = newn(wchar, host_wcslen(s) + 1);
   wcscpy(dup, s);
   return dup;
 }

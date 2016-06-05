@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include <wchar.h>
 #include <sys/cygwin.h>
 #include <cygwin/version.h>
 
@@ -113,6 +114,13 @@
 #else
 #define HAS_WCSDUP              0
 #endif
+
+
+static inline size_t host_wcslen(const uint16_t *s)
+{
+  return wcslen(s);
+}
+
 
 #if HAS_CREATE_PATH
 

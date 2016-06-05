@@ -197,7 +197,7 @@ void
 win_prefix_title(const wstring prefix)
 {
   int len = GetWindowTextLengthW(wnd);
-  int plen = wcslen(prefix);
+  int plen = host_wcslen(prefix);
   wchar ptitle[plen + len + 1];
   wcscpy(ptitle, prefix);
   wchar * title = & ptitle[plen];
@@ -211,7 +211,7 @@ win_unprefix_title(const wstring prefix)
   int len = GetWindowTextLengthW(wnd);
   wchar ptitle[len + 1];
   GetWindowTextW(wnd, ptitle, len + 1);
-  int plen = wcslen(prefix);
+  int plen = host_wcslen(prefix);
   if (!wcsncmp(ptitle, prefix, plen)) {
     wchar * title = & ptitle[plen];
     SetWindowTextW(wnd, title);
@@ -710,11 +710,11 @@ win_bell(config * conf)
       char rcdir[strlen(home) + strlen(subfolder) + 2];
       sprintf(rcdir, "%s/%s", home, subfolder);
       wchar * rcpat = path_posix_to_win_w(rcdir);
-      int len = wcslen(rcpat);
-      rcpat = renewn(rcpat, len + wcslen(bell_file) + 6);
+      int len = host_wcslen(rcpat);
+      rcpat = renewn(rcpat, len + host_wcslen(bell_file) + 6);
       rcpat[len++] = L'/';
       wcscpy(&rcpat[len], bell_file);
-      len = wcslen(rcpat);
+      len = host_wcslen(rcpat);
       wcscpy(&rcpat[len], L".wav");
       bell_file = rcpat;
       free_bell_file = true;
@@ -1480,7 +1480,9 @@ warnw(wstring msg, wstring file, wstring err)
 {
 #if HAS_WSTRING
   wstring format = (err && *err) ? L"%s: %ls '%ls':\n%ls" : L"%s: %ls '%ls'";
-  wchar mess[wcslen(format) + strlen(main_argv[0]) + wcslen(msg) + wcslen(file) + (err ? wcslen(err) : 0)];
+  wchar mess[host_wcslen(format) + strlen(main_argv[0]) + host_wcslen(msg) + host_wcslen(file) + (err ?
+host_wcslen(err) :
+0)];
   swprintf(mess, lengthof(mess), format, main_argv[0], msg, file, err);
   show_msg_w(stderr, mess);
 #else
@@ -1611,10 +1613,10 @@ get_shortcut_icon_location(wchar * iconfile)
       }
     }
 
-    result = newn(wchar, wcslen(wenv) + wcslen(wicon) + wcslen(widx) + 1);
+    result = newn(wchar, host_wcslen(wenv) + host_wcslen(wicon) + host_wcslen(widx) + 1);
     wcscpy(result, wenv);
-    wcscpy(&result[wcslen(result)], wicon);
-    wcscpy(&result[wcslen(result)], widx);
+    wcscpy(&result[host_wcslen(result)], wicon);
+    wcscpy(&result[host_wcslen(result)], widx);
     if (* widx)
       free(widx);
     if (* wenv)

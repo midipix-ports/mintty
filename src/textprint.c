@@ -65,7 +65,7 @@ printer_write(char * data, uint len)
     }
     buf[len] = '\0';
     wchar * wdata = cs__mbstowcs(buf);
-    write(pd, wdata, wcslen(wdata) * sizeof(wchar));
+    write(pd, wdata, host_wcslen(wdata) * sizeof(wchar));
     free(buf);
     free(wdata);
   }

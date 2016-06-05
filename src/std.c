@@ -12,7 +12,7 @@ strset(string *sp, string s)
 void
 wstrset(wstring *sp, wstring s)
 {
-  uint size = wcslen(s) + 1;
+  uint size = host_wcslen(s) + 1;
   *sp = memcpy(renewn((wchar *)*sp, size), s, size * sizeof(wchar));
 }
 

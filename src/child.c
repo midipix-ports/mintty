@@ -450,7 +450,7 @@ child_resize(struct winsize *winp)
 wstring
 child_conv_path(wstring wpath)
 {
-  int wlen = wcslen(wpath);
+  int wlen = host_wcslen(wpath);
   int len = wlen * cs_cur_max;
   char path[len];
   len = cs_wcntombn(path, wpath, len, wlen);
@@ -513,7 +513,7 @@ child_conv_path(wstring wpath)
   wchar *win_wpath = path_posix_to_win_w(exp_path);
   // Drop long path prefix if possible,
   // because some programs have trouble with them.
-  if (win_wpath && wcslen(win_wpath) < MAX_PATH) {
+  if (win_wpath && host_wcslen(win_wpath) < MAX_PATH) {
     wchar *old_win_wpath = win_wpath;
     if (wcsncmp(win_wpath, L"\\\\?\\UNC\\", 8) == 0) {
       win_wpath = wcsdup(win_wpath + 6);
