@@ -78,6 +78,11 @@ static inline int host_wcwidth(uint16_t wc)
 	return wcwidth(wc);
 }
 
+static inline int host_wcswidth(const uint16_t *wcs, size_t n)
+{
+	return 0;
+}
+
 static inline int host_conv_to_win32_path(
 		const char *psx_path, char *win_path, size_t buflen)
 {
