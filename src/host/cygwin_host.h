@@ -115,6 +115,8 @@
 #define HAS_WCSDUP              0
 #endif
 
+#define host_mbstr_to_utf16(cp, flags, mbbuf, mbbuflen, utf16buf, utf16buflen) \
+	MultiByteToWideChar(cp, flags, mbbuf, mbbuflen, utf16buf, utf16buflen)
 
 static inline size_t host_wcslen(const uint16_t *s)
 {

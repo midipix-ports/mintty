@@ -417,7 +417,7 @@ cs_mbstowcs(wchar *ws, const char *s, size_t wlen)
   if (use_locale)
     return mbstowcs(ws, s, wlen);
 #endif
-  return MultiByteToWideChar(codepage, 0, s, -1, ws, wlen) - 1;
+  return host_mbstr_to_utf16(codepage, 0, s, -1, ws, wlen) - 1;
 }
 
 char *
@@ -465,34 +465,34 @@ cs__wcstombs_dropill(const wchar * ws)
 wchar *
 cs__utftowcs(const char * s)
 {
-  int size1 = MultiByteToWideChar(CP_UTF8, 0, s, -1, 0, 0);
+  int size1 = host_mbstr_to_utf16(CP_UTF8, 0, s, -1, 0, 0);
   wchar * ws = malloc(size1 * sizeof(wchar));  // includes terminating NUL
-  MultiByteToWideChar(CP_UTF8, 0, s, -1, ws, size1);
+  host_mbstr_to_utf16(CP_UTF8, 0, s, -1, ws, size1);
   return ws;
 }
 
 wchar *
 cs__mbstowcs(const char * s)
 {
-  int size1 = MultiByteToWideChar(codepage, 0, s, -1, 0, 0);
+  int size1 = host_mbstr_to_utf16(codepage, 0, s, -1, 0, 0);
   wchar * ws = malloc(size1 * sizeof(wchar));  // includes terminating NUL
-  MultiByteToWideChar(codepage, 0, s, -1, ws, size1);
+  host_mbstr_to_utf16(codepage, 0, s, -1, ws, size1);
   return ws;
 }
 
 wchar *
 cs__utforansitowcs(const char * s)
 {
-  int size1 = MultiByteToWideChar(CP_UTF8, MB_ERR_INVALID_CHARS, s, -1, 0, 0);
+  int size1 = host_mbstr_to_utf16(CP_UTF8, MB_ERR_INVALID_CHARS, s, -1, 0, 0);
   if (size1 > 0) {
     wchar * ws = malloc(size1 * sizeof(wchar));  // includes terminating NUL
-    MultiByteToWideChar(CP_UTF8, 0, s, -1, ws, size1);
+    host_mbstr_to_utf16(CP_UTF8, 0, s, -1, ws, size1);
     return ws;
   }
   else {
-    size1 = MultiByteToWideChar(CP_ACP, 0, s, -1, 0, 0);
+    size1 = host_mbstr_to_utf16(CP_ACP, 0, s, -1, 0, 0);
     wchar * ws = malloc(size1 * sizeof(wchar));  // includes terminating NUL
-    MultiByteToWideChar(CP_ACP, 0, s, -1, ws, size1);
+    host_mbstr_to_utf16(CP_ACP, 0, s, -1, ws, size1);
     return ws;
   }
 }
@@ -523,7 +523,7 @@ cs_mb1towc(wchar *pwc, char c)
   }
   s[sn++] = c;
   s[sn] = 0;
-  switch (MultiByteToWideChar(codepage, 0, s, sn, ws, 2)) {
+  switch (host_mbstr_to_utf16(codepage, 0, s, sn, ws, 2)) {
     when 1: {
       // Incomplete sequences yield the codepage's default character, but so
       // does the default character's very own (valid) sequence.
@@ -557,6 +557,6 @@ wchar
 cs_btowc_glyph(char c)
 {
   wchar wc = 0;
-  MultiByteToWideChar(codepage, MB_USEGLYPHCHARS, &c, 1, &wc, 1);
+  host_mbstr_to_utf16(codepage, MB_USEGLYPHCHARS, &c, 1, &wc, 1);
   return wc;
 }

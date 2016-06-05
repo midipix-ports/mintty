@@ -1095,7 +1095,7 @@ win_key_up(WPARAM wp, LPARAM unused(lp))
     else if (alt_code < 0x10000) {
       wchar wc = alt_code;
       if (wc < 0x20)
-        MultiByteToWideChar(CP_OEMCP, MB_USEGLYPHCHARS,
+        host_mbstr_to_utf16(CP_OEMCP, MB_USEGLYPHCHARS,
                             (char[]){wc}, 1, &wc, 1);
       child_sendw(&wc, 1);
     }

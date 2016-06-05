@@ -115,7 +115,7 @@ win_copy(const wchar *data, uint *attrs, int len)
     int numcolours;
 
     for (int i = 0; i < 256; i++)
-      MultiByteToWideChar(CP_ACP, MB_ERR_INVALID_CHARS,
+      host_mbstr_to_utf16(CP_ACP, MB_ERR_INVALID_CHARS,
                           (char[]){i}, 1, unitab + i, 1);
 
     char * rtffontname = newn(char, host_wcslen(cfg.font.name) * 9 + 1);
@@ -509,9 +509,9 @@ static void
 paste_text(HANDLE data)
 {
   char *cs = GlobalLock(data);
-  uint l = MultiByteToWideChar(CP_ACP, 0, cs, -1, 0, 0) - 1;
+  uint l = host_mbstr_to_utf16(CP_ACP, 0, cs, -1, 0, 0) - 1;
   wchar s[l];
-  MultiByteToWideChar(CP_ACP, 0, cs, -1, s, l);
+  host_mbstr_to_utf16(CP_ACP, 0, cs, -1, s, l);
   GlobalUnlock(data);
   term_paste(s, l);
 }
