@@ -11,6 +11,7 @@
 
 #include <pwd.h>
 #include <fcntl.h>
+#include <time.h>
 #include <utmp.h>
 #include <dirent.h>
 #include <signal.h>
