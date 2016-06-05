@@ -38,6 +38,16 @@
 #define HAS_PW_SHELL		0
 #define HAS_SUPPORTED_APPID	0
 
+static inline int min(int a, int b)
+{
+	return (a < b) ? a : b;
+}
+
+static inline int max(int a, int b)
+{
+	return (a > b) ? a : b;
+}
+
 static inline char *host_create_path_posix_to_ansi(const char *from)
 {
 	return 0;
