@@ -1,4 +1,5 @@
 #include <stdint.h>
+#include <stddef.h>
 
 #define MAX_PATH	2048
 
@@ -54,4 +55,9 @@ static inline char *host_create_path_utf16_to_posix(const uint16_t *from)
 
 static inline void login(const void *ut)
 {
+}
+
+static inline size_t host_wcslen(const uint16_t *s)
+{
+	return 0;
 }
