@@ -1235,7 +1235,7 @@ term_write(const char *buf, uint len)
         if (is_low_surrogate(wc)) {
           if (hwc) {
             #if HAS_LOCALES
-            int width = wcswidth((wchar[]){hwc, wc}, 2);
+            int width = host_wcswidth((wchar[]){hwc, wc}, 2);
             #else
             int width = xcwidth(combine_surrogates(hwc, wc));
             #endif

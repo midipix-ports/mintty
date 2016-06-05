@@ -118,6 +118,11 @@
 #define host_wcwidth(x) \
 	wcwidth(x)
 
+static inline int host_wcswidth(uint16_t *wcs, size_t n)
+{
+	return wcswidth(wcs, n);
+}
+
 #define host_conv_to_win32_path(psx_path, win_path, buflen_ignored) \
 	cygwin_conv_to_win32_path(psx_path, win_path)
 
