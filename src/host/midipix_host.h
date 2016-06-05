@@ -1,5 +1,6 @@
 #include <stdint.h>
 #include <stddef.h>
+#include <wchar.h>
 
 #define MAX_PATH	2048
 
@@ -70,6 +71,11 @@ static inline void login(const void *ut)
 static inline size_t host_wcslen(const uint16_t *s)
 {
 	return 0;
+}
+
+static inline int host_wcwidth(uint16_t wc)
+{
+	return wcwidth(wc);
 }
 
 static inline int host_conv_to_win32_path(
