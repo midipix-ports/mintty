@@ -62,6 +62,12 @@ static inline size_t host_wcslen(const uint16_t *s)
 	return 0;
 }
 
+static inline int host_conv_to_win32_path(
+		const char *psx_path, char *win_path, size_t buflen)
+{
+	return 0;
+}
+
 static inline int host_mbstr_to_utf16(
 		uint32_t cp, uint32_t flags,
 		char *mbstr, int mbbuflen,
