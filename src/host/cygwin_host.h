@@ -115,6 +115,9 @@
 #define HAS_WCSDUP              0
 #endif
 
+#define host_conv_to_win32_path(psx_path, win_path, buflen_ignored) \
+	cygwin_conv_to_win32_path(psx_path, win_path)
+
 #define host_mbstr_to_utf16(cp, flags, mbbuf, mbbuflen, utf16buf, utf16buflen) \
 	MultiByteToWideChar(cp, flags, mbbuf, mbbuflen, utf16buf, utf16buflen)
 
@@ -181,7 +184,7 @@ static inline wchar *
 path_posix_to_win_w(const char * p)
 {
   char ap[MAX_PATH];
-  cygwin_conv_to_win32_path(p, ap);
+  host_conv_to_win32_path(p, ap);
   wchar * wp = newn(wchar, MAX_PATH);
   MultiByteToWideChar(0, 0, ap, -1, wp, MAX_PATH);
   wp = renewn(wp, wcslen(wp) + 1);
@@ -192,7 +195,7 @@ static inline char *
 path_posix_to_win_a(const char * p)
 {
   char * ap = newn(char, MAX_PATH);
-  cygwin_conv_to_win32_path(p, ap);
+  host_conv_to_win32_path(p, ap);
   ap = renewn(ap, strlen(ap) + 1);
   return ap;
 }
