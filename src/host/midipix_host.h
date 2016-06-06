@@ -121,7 +121,7 @@ static inline int host_conv_to_win32_path(
 
 static inline int host_mbstr_to_utf16(
 		uint32_t cp, uint32_t flags,
-		char *mbstr, int mbbuflen,
+		const char *mbstr, int mbbuflen,
 		uint16_t *utf16str, int utf16buflen)
 {
 	return 0;
