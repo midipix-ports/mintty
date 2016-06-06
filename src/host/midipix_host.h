@@ -126,3 +126,12 @@ static inline int host_mbstr_to_utf16(
 {
 	return 0;
 }
+
+static inline int host_utf16_to_mbstr(
+		uint32_t cp, uint32_t flags,
+		const uint16_t *utf16str, int utf16buflen,
+		char *mbstr, int mbbuflen,
+		const char *defch, int * useddefch)
+{
+	return 0;
+}
