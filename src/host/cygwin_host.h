@@ -144,6 +144,11 @@ static inline int host_wcsncmp(const uint16_t *ws1, const uint16_t *ws2, size_t 
   return wcsncmp(ws1, ws2, n);
 }
 
+static inline uint16_t *host_wcsdup(const uint16_t *string)
+{
+  return wcsdup(string);
+}
+
 #if HAS_CREATE_PATH
 
 static inline char *

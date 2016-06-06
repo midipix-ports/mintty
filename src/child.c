@@ -520,12 +520,12 @@ child_conv_path(wstring wpath)
   if (win_wpath && host_wcslen(win_wpath) < MAX_PATH) {
     wchar *old_win_wpath = win_wpath;
     if (host_wcsncmp(win_wpath, unc_prefix, 8) == 0) {
-      win_wpath = wcsdup(win_wpath + 6);
+      win_wpath = host_wcsdup(win_wpath + 6);
       win_wpath[0] = '\\';  // Replace "\\?\UNC\" prefix with "\\"
       free(old_win_wpath);
     }
     else if (host_wcsncmp(win_wpath, dos_prefix, 4) == 0) {
-      win_wpath = wcsdup(win_wpath + 4);  // Drop "\\?\" prefix
+      win_wpath = host_wcsdup(win_wpath + 4);  // Drop "\\?\" prefix
       free(old_win_wpath);
     }
   }
