@@ -64,6 +64,21 @@ static inline char *host_create_path_utf16_to_posix(const uint16_t *from)
 	return 0;
 }
 
+static inline char * path_win_w_to_posix(const wchar * wp)
+{
+	return host_create_path_utf16_to_posix(wp);
+}
+
+static inline wchar * path_posix_to_win_w(const char * p)
+{
+	return host_create_path_posix_to_utf16(p);
+}
+
+static inline char * path_posix_to_win_a(const char * p)
+{
+	return host_create_path_posix_to_ansi(p);
+}
+
 static inline void login(const void *ut)
 {
 }
