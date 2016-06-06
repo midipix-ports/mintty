@@ -129,6 +129,9 @@ static inline int host_wcswidth(uint16_t *wcs, size_t n)
 #define host_mbstr_to_utf16(cp, flags, mbbuf, mbbuflen, utf16buf, utf16buflen) \
 	MultiByteToWideChar(cp, flags, mbbuf, mbbuflen, utf16buf, utf16buflen)
 
+#define host_utf16_to_mbstr(cp, flags, utf16buf, utf16buflen, mbbuf, mbbuflen, defch, useddefch) \
+	WideCharToMultiByte(cp, flags, utf16buf, utf16buflen, mbbuf, mbbuflen, defch, useddefch)
+
 static inline size_t host_wcslen(const uint16_t *s)
 {
   return wcslen(s);

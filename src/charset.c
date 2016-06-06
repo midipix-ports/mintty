@@ -237,7 +237,7 @@ get_cp_info(void)
   cs_cur_max = cpi.MaxCharSize;
   cp_default_wchar = cpi.UnicodeDefaultChar;
   int len =
-    WideCharToMultiByte(codepage, 0, &cp_default_wchar, 1,
+    host_utf16_to_mbstr(codepage, 0, &cp_default_wchar, 1,
                         cp_default_char, sizeof cp_default_char - 1, 0, 0);
   cp_default_char[len] = 0;
 }
@@ -397,7 +397,7 @@ cs_wcntombn(char *s, const wchar *ws, size_t len, size_t wlen)
     return i;
   }
 #endif
-  return WideCharToMultiByte(codepage, 0, ws, wlen, s, len, 0, 0);
+  return host_utf16_to_mbstr(codepage, 0, ws, wlen, s, len, 0, 0);
 }
 
 int
@@ -423,9 +423,9 @@ cs_mbstowcs(wchar *ws, const char *s, size_t wlen)
 char *
 cs__wcstoutf(const wchar * ws)
 {
-  int size1 = WideCharToMultiByte(CP_UTF8, 0, ws, -1, 0, 0, 0, 0);
+  int size1 = host_utf16_to_mbstr(CP_UTF8, 0, ws, -1, 0, 0, 0, 0);
   char * s = malloc(size1);  // includes terminating NUL
-  WideCharToMultiByte(CP_UTF8, 0, ws, -1, s, size1, 0, 0);
+  host_utf16_to_mbstr(CP_UTF8, 0, ws, -1, s, size1, 0, 0);
   return s;
 }
 
@@ -437,9 +437,9 @@ cs__wcstombs(const wchar * ws)
 {
   char defchar = '?';
   char * defcharpoi = (codepage == CP_UTF8 ? 0 : &defchar);
-  int size1 = WideCharToMultiByte(codepage, WC_OPT, ws, -1, 0, 0, 0, 0);
+  int size1 = host_utf16_to_mbstr(codepage, WC_OPT, ws, -1, 0, 0, 0, 0);
   char * s = malloc(size1);  // includes terminating NUL
-  WideCharToMultiByte(codepage, WC_OPT, ws, -1, s, size1, defcharpoi, 0);
+  host_utf16_to_mbstr(codepage, WC_OPT, ws, -1, s, size1, defcharpoi, 0);
   return s;
 }
 
@@ -449,9 +449,9 @@ cs__wcstombs_dropill(const wchar * ws)
   char defchar = '\0';
   char * defcharpoi = (codepage == CP_UTF8 ? 0 : &defchar);
   int illegal = 0;
-  int size1 = WideCharToMultiByte(codepage, WC_OPT, ws, -1, 0, 0, 0, 0);
+  int size1 = host_utf16_to_mbstr(codepage, WC_OPT, ws, -1, 0, 0, 0, 0);
   char * s = malloc(size1);  // includes terminating NUL
-  WideCharToMultiByte(codepage, WC_OPT, ws, -1, s, size1, defcharpoi, &illegal);
+  host_utf16_to_mbstr(codepage, WC_OPT, ws, -1, s, size1, defcharpoi, &illegal);
   if (illegal) {
     int i = 0;
     for (int k = 0; k < size1; k++)

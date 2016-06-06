@@ -77,7 +77,7 @@ win_copy(const wchar *data, uint *attrs, int len)
   int len2;
   void *lock, *lock2, *lock3;
 
-  len2 = WideCharToMultiByte(CP_ACP, 0, data, len, 0, 0, null, null);
+  len2 = host_utf16_to_mbstr(CP_ACP, 0, data, len, 0, 0, null, null);
 
   clipdata = GlobalAlloc(GMEM_DDESHARE | GMEM_MOVEABLE, len * sizeof (wchar));
   clipdata2 = GlobalAlloc(GMEM_DDESHARE | GMEM_MOVEABLE, len2);
@@ -95,7 +95,7 @@ win_copy(const wchar *data, uint *attrs, int len)
     return;
 
   memcpy(lock, data, len * sizeof (wchar));
-  WideCharToMultiByte(CP_ACP, 0, data, len, lock2, len2, null, null);
+  host_utf16_to_mbstr(CP_ACP, 0, data, len, lock2, len2, null, null);
 
   if (attrs && cfg.copy_as_rtf) {
     wchar unitab[256];
@@ -346,7 +346,7 @@ win_copy(const wchar *data, uint *attrs, int len)
         blen = alen = 0;
       }
       else {
-        multilen = WideCharToMultiByte(CP_ACP, 0, &udata[uindex], 1,
+        multilen = host_utf16_to_mbstr(CP_ACP, 0, &udata[uindex], 1,
                                                   null, 0, null, null);
         if (multilen != 1) {
           blen = sprintf(before, "{\\uc%d\\u%d", multilen, udata[uindex]);
