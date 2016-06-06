@@ -1186,7 +1186,7 @@ dlg_editbox_set_w(control *ctrl, wstring text)
         len = ilen;
       }
       SendMessageW(wnd, LB_GETTEXT, i, (LPARAM)buf);
-      if (wcscmp(buf, text) == 0) {
+      if (host_wcscmp(buf, text) == 0) {
         SendMessageW(wnd, LB_SETCURSEL, i, (LPARAM)0);
         break;
       }

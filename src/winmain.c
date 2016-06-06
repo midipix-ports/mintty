@@ -954,7 +954,7 @@ win_reconfig(void)
   term_reconfig();
 
   bool font_changed =
-    wcscmp(new_cfg.font.name, cfg.font.name) ||
+    host_wcscmp(new_cfg.font.name, cfg.font.name) ||
     new_cfg.font.size != cfg.font.size ||
     new_cfg.font.weight != cfg.font.weight ||
     new_cfg.font.isbold != cfg.font.isbold ||

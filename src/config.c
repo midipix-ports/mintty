@@ -807,7 +807,7 @@ apply_config(bool save)
       when OPT_STRING:
         changed = strcmp(*(string *)val_p, *(string *)new_val_p);
       when OPT_WSTRING:
-        changed = wcscmp(*(wstring *)val_p, *(wstring *)new_val_p);
+        changed = host_wcscmp(*(wstring *)val_p, *(wstring *)new_val_p);
       when OPT_INT or OPT_COLOUR:
         changed = (*(int *)val_p != *(int *)new_val_p);
       otherwise:
@@ -896,9 +896,9 @@ printer_handler(control *ctrl, int event)
   }
   else if (event == EVENT_VALCHANGE || event == EVENT_SELCHANGE) {
     dlg_editbox_get_w(ctrl, &printer);
-    if (!wcscmp(printer, NONE))
+    if (!host_wcscmp(printer, NONE))
       wstrset(&printer, CFG_NONE);
-    else if (!wcscmp(printer, DEFAULT))
+    else if (!host_wcscmp(printer, DEFAULT))
       wstrset(&printer, CFG_DEFAULT);
     new_cfg.printer = printer;
   }
@@ -1099,7 +1099,7 @@ bellfile_handler(control *ctrl, int event)
   }
   else if (event == EVENT_VALCHANGE || event == EVENT_SELCHANGE) {
     dlg_editbox_get_w(ctrl, &bell_file);
-    if (!wcscmp(bell_file, NONE))
+    if (!host_wcscmp(bell_file, NONE))
       wstrset(&bell_file, CFG_NONE);
     // add std dir prefix?
     new_cfg.bell_file = bell_file;
@@ -1121,7 +1121,7 @@ theme_handler(control *ctrl, int event)
   }
   else if (event == EVENT_VALCHANGE || event == EVENT_SELCHANGE) {
     dlg_editbox_get_w(ctrl, &theme_file);
-    if (!wcscmp(theme_file, NONE))
+    if (!host_wcscmp(theme_file, NONE))
       wstrset(&theme_file, CFG_NONE);
     new_cfg.theme_file = theme_file;
   }

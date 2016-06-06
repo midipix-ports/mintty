@@ -69,6 +69,7 @@ void
 child_create(char *argv[], struct winsize *winp)
 {
   string lang = cs_lang();
+  const wchar dash[] = {'-',0};
 
   // xterm and urxvt ignore SIGHUP, so let's do the same.
   signal(SIGHUP, SIG_IGN);
@@ -202,7 +203,7 @@ child_create(char *argv[], struct winsize *winp)
     // use cygwin conversion function to escape unencoded characters 
     // and thus avoid the locale trick (2.2.3)
 
-    if (!wcscmp(cfg.log, L"-"))
+    if (!host_wcscmp(cfg.log, dash))
       log_fd = fileno(stdout);
     else {
       char * log = path_win_w_to_posix(cfg.log);

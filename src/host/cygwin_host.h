@@ -134,6 +134,10 @@ static inline size_t host_wcslen(const uint16_t *s)
   return wcslen(s);
 }
 
+static inline int host_wcscmp(const uint16_t *ws1, const uint16_t *ws2)
+{
+  return wcscmp(ws1,ws2);
+}
 
 #if HAS_CREATE_PATH
 
