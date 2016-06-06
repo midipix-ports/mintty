@@ -93,6 +93,11 @@ static inline int host_wcsncmp(const uint16_t *ws1, const uint16_t *ws2, size_t 
 	return 0;
 }
 
+static inline uint16_t *host_wcsdup(const uint16_t *string)
+{
+	return 0;
+}
+
 static inline int host_conv_to_win32_path(
 		const char *psx_path, char *win_path, size_t buflen)
 {
