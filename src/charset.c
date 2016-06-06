@@ -415,7 +415,7 @@ cs_mbstowcs(wchar *ws, const char *s, size_t wlen)
 {
 #if HAS_LOCALES
   if (use_locale)
-    return mbstowcs(ws, s, wlen);
+    return host_mbstowcs(ws, s, wlen);
 #endif
   return host_mbstr_to_utf16(codepage, 0, s, -1, ws, wlen) - 1;
 }

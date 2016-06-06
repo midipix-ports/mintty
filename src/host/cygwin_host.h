@@ -152,6 +152,11 @@ static inline uint16_t *host_wcsdup(const uint16_t *string)
   return wcsdup(string);
 }
 
+static inline uint32_t host_mbstowcs(uint16_t *pwcs, const char *s, size_t n)
+{
+  return mbstowcs(pwcs,s,n);
+}
+
 #if HAS_CREATE_PATH
 
 static inline char *
