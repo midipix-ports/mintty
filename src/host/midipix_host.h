@@ -113,6 +113,11 @@ static inline uint16_t *host_wcsdup(const uint16_t *string)
 	return 0;
 }
 
+static inline uint32_t host_mbstowcs(uint16_t *pwcs, const char *s, size_t n)
+{
+	return 0;
+}
+
 static inline int host_conv_to_win32_path(
 		const char *psx_path, char *win_path, size_t buflen)
 {
