@@ -457,6 +457,8 @@ child_conv_path(wstring wpath)
   char path[len];
   len = cs_wcntombn(path, wpath, len, wlen);
   path[len] = 0;
+  const uint16_t unc_prefix[] =  {'\\','\\','?','\\','U','N','C','\\'};
+  const uint16_t dos_prefix[] =  {'\\','\\','?','\\'};
 
   char *exp_path;  // expanded path
   if (*path == '~') {
@@ -517,12 +519,12 @@ child_conv_path(wstring wpath)
   // because some programs have trouble with them.
   if (win_wpath && host_wcslen(win_wpath) < MAX_PATH) {
     wchar *old_win_wpath = win_wpath;
-    if (wcsncmp(win_wpath, L"\\\\?\\UNC\\", 8) == 0) {
+    if (host_wcsncmp(win_wpath, unc_prefix, 8) == 0) {
       win_wpath = wcsdup(win_wpath + 6);
       win_wpath[0] = '\\';  // Replace "\\?\UNC\" prefix with "\\"
       free(old_win_wpath);
     }
-    else if (wcsncmp(win_wpath, L"\\\\?\\", 4) == 0) {
+    else if (host_wcsncmp(win_wpath, dos_prefix, 4) == 0) {
       win_wpath = wcsdup(win_wpath + 4);  // Drop "\\?\" prefix
       free(old_win_wpath);
     }

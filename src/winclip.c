@@ -50,9 +50,11 @@ void
 win_open(wstring wpath)
 {
   wstring p = wpath;
+  const uint16_t www[] = {'w','w','w','.'};
+
   while (iswalpha(*p)) p++;
 
-  if (*wpath == '\\' || *p == ':' || wcsncmp(L"www.", wpath, 4) == 0) {
+  if (*wpath == '\\' || *p == ':' || host_wcsncmp(www, wpath, 4) == 0) {
     // Looks like it's a Windows path or URI
     shell_exec(wpath);
   }

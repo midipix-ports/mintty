@@ -212,7 +212,7 @@ win_unprefix_title(const wstring prefix)
   wchar ptitle[len + 1];
   GetWindowTextW(wnd, ptitle, len + 1);
   int plen = host_wcslen(prefix);
-  if (!wcsncmp(ptitle, prefix, plen)) {
+  if (!host_wcsncmp(ptitle, prefix, plen)) {
     wchar * title = & ptitle[plen];
     SetWindowTextW(wnd, title);
   }

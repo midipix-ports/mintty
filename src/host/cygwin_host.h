@@ -139,6 +139,11 @@ static inline int host_wcscmp(const uint16_t *ws1, const uint16_t *ws2)
   return wcscmp(ws1,ws2);
 }
 
+static inline int host_wcsncmp(const uint16_t *ws1, const uint16_t *ws2, size_t n)
+{
+  return wcsncmp(ws1, ws2, n);
+}
+
 #if HAS_CREATE_PATH
 
 static inline char *
