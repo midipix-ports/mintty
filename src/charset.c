@@ -502,7 +502,7 @@ cs_mb1towc(wchar *pwc, char c)
 {
 #if HAS_LOCALES
   if (use_locale)
-    return mbrtowc(pwc, &c, 1, 0);
+    return host_mbrtowc(pwc, &c, 1, 0);
 #endif
 
   // The Windows way

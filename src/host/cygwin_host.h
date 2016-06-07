@@ -157,6 +157,11 @@ static inline uint32_t host_mbstowcs(uint16_t *pwcs, const char *s, size_t n)
   return mbstowcs(pwcs,s,n);
 }
 
+static inline size_t host_mbrtowc(uint16_t *pwc, const char *s, size_t n, mbstate_t *ps)
+{
+  return mbrtowc(pwc,s,n,ps);
+}
+
 #if HAS_CREATE_PATH
 
 static inline char *
