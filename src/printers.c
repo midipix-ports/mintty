@@ -3,6 +3,7 @@
 #include <winbase.h>
 #include <wingdi.h>
 #include <winspool.h>
+#include <winerror.h>
 
 #define dont_debug_printer
 
