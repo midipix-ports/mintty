@@ -42,7 +42,7 @@ printer_get_default(void)
   if (GetDefaultPrinterW(dp, &len))
     return dp;
   else
-    return L"";
+    return (uint16_t[]){0};
 }
 
 void
