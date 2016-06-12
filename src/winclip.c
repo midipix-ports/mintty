@@ -13,7 +13,6 @@
 #include <wtypes.h>
 #include <objidl.h>
 #include <oleidl.h>
-#include <sys/cygwin.h>
 
 static DWORD WINAPI
 shell_exec_thread(void *data)
