@@ -9,6 +9,9 @@ static char * pf;
 static int pd;
 static const wchar BOM = 0xFEFF;
 static int np = 0;
+static const uint16_t printing_title[] = {
+		'[','P','r','i','n','t','i','n','g',
+		'.','.','.',']',0};
 
 void
 printer_start_job(wstring printer_name)
@@ -44,7 +47,7 @@ printer_start_job(wstring printer_name)
 
   pd = open(pf, O_CREAT | O_TRUNC | O_BINARY | O_WRONLY, 0600);
   if (pd >= 0) {
-    win_prefix_title(L"[Printing...] ");
+    win_prefix_title(printing_title);
 
     printer = printer_name;
     write(pd, &BOM, 2);
@@ -108,6 +111,6 @@ printer_finish_job(void)
     free(pf);
     printer = 0;
 
-    win_unprefix_title(L"[Printing...] ");
+    win_unprefix_title(printing_title);
   }
 }
