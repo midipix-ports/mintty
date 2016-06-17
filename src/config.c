@@ -8,9 +8,9 @@
 #include "print.h"
 #include "charset.h"
 #include "win.h"
+#include "std.h"
 
 #include <termios.h>
-#include <sys/cygwin.h>
 
 
 #define dont_support_blurred
