@@ -1056,7 +1056,7 @@ add_file_resources(control *ctrl, wstring pattern)
   rcpat[len++] = L'/';
   wcscpy(&rcpat[len], pattern);
 
-  wstring suf = wcsrchr(pattern, L'.');
+  wstring suf = host_wcsrchr(pattern, '.');
   int sufl = suf ? host_wcslen(suf) : 0;
 
   WIN32_FIND_DATAW ffd;

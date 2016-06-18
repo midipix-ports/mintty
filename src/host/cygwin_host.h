@@ -123,6 +123,11 @@ static inline int host_wcswidth(uint16_t *wcs, size_t n)
 	return wcswidth(wcs, n);
 }
 
+static inline uint16_t * host_wcsrchr(const uint16_t *ws, uint16_t wc)
+{
+	return wcsrchr(ws,wc);
+}
+
 #define host_conv_to_win32_path(psx_path, win_path, buflen_ignored) \
 	cygwin_conv_to_win32_path(psx_path, win_path)
 
