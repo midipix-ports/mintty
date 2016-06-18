@@ -18,6 +18,11 @@
 
 static wstring rc_filename = 0;
 
+static const uint16_t fntname_lucida[] = {
+	'L','u','c','i','d','a',' ',
+	'C','o','n','s','o','l','e',
+	0};
+
 const config default_cfg = {
   // Looks
   .fg_colour = 0xBFBFBF,
@@ -27,14 +32,14 @@ const config default_cfg = {
   .search_fg_colour = 0x000000,
   .search_bg_colour = 0x00DDDD,
   .search_current_colour = 0x0099DD,
-  .theme_file = L"",
+  .theme_file = &(uint16_t){0},
   .transparency = 0,
   .blurred = false,
   .opaque_when_focused = false,
   .cursor_type = CUR_LINE,
   .cursor_blinks = true,
   // Text
-  .font = {.name = L"Lucida Console", .size = 9, .weight = 400, .isbold = false},
+  .font = {.name = fntname_lucida, .size = 9, .weight = 400, .isbold = false},
   .show_hidden_fonts = false,
   .font_smoothing = FS_DEFAULT,
   .bold_as_font = -1,  // -1 means "the opposite of bold_as_colour"
@@ -81,31 +86,31 @@ const config default_cfg = {
   .search_bar = "",
   // Terminal
   .term = "xterm",
-  .answerback = L"",
+  .answerback = &(uint16_t){0},
   .bell_sound = false,
   .bell_type = 1,
-  .bell_file = L"",
+  .bell_file = &(uint16_t){0},
   .bell_freq = 0,
   .bell_len = 400,
   .bell_flash = false,
   .bell_taskbar = true,
-  .printer = L"",
+  .printer =  &(uint16_t){0},
   .confirm_exit = true,
   // Command line
-  .class = L"",
+  .class =  &(uint16_t){0},
   .hold = HOLD_START,
   .exit_write = false,
-  .exit_title = L"",
-  .icon = L"",
-  .log = L"",
+  .exit_title =  &(uint16_t){0},
+  .icon =  &(uint16_t){0},
+  .log =  &(uint16_t){0},
   .futmp = false,
-  .title = L"",
+  .title =  &(uint16_t){0},
   .daemonize = true,
   .daemonize_always = false,
   // "Hidden"
-  .app_id = L"",
-  .app_name = L"",
-  .app_launch_cmd = L"",
+  .app_id =  &(uint16_t){0},
+  .app_name =  &(uint16_t){0},
+  .app_launch_cmd =  &(uint16_t){0},
   .col_spacing = 0,
   .row_spacing = 0,
   .padding = 1,
@@ -876,11 +881,22 @@ current_size_handler(control *unused(ctrl), int event)
 static void
 printer_handler(control *ctrl, int event)
 {
-  const wstring NONE = L"◇ None (printing disabled) ◇";  // ♢◇
-  const wstring CFG_NONE = L"";
-  const wstring DEFAULT = L"◆ Default printer ◆";  // ♦◆
-  const wstring CFG_DEFAULT = L"*";
+  const uint16_t NONE[] = {
+	'%',' ','N','o','n','e',' ',
+	'(','p','r','i','n','t','i','n','g',
+	' ','d','i','s','a','b','l','e','d',')',' ','%',
+	0};
+
+  const uint16_t DEFAULT[] = {
+	'*',' ','D','e','f','a','u','l','t',
+	' ','p','r','i','n','t','e','r',' ','*',
+	0};
+
+  const uint16_t CFG_NONE[]    = {0};
+  const uint16_t CFG_DEFAULT[] = {'*',0};
+
   wstring printer = new_cfg.printer;
+
   if (event == EVENT_REFRESH) {
     dlg_listbox_clear(ctrl);
     dlg_listbox_add_w(ctrl, NONE);
@@ -1087,13 +1103,24 @@ add_file_resources(control *ctrl, wstring pattern)
 static void
 bellfile_handler(control *ctrl, int event)
 {
-  const wstring NONE = L"◇ None (system sound) ◇";  // ♢◇
-  const wstring CFG_NONE = L"";
+  const uint16_t NONE[] = {
+	'%',' ','N','o','n','e',
+	' ','(','s','y','s','t','e','m',
+	' ','s','o','u','n','d',')',' ','%',
+	0};
+
+  const uint16_t CFG_NONE[] = {0};
+
+  const uint16_t SOUNDS_WAV[] = {
+	's','o','u','n','d','s',
+	'/','*','.','w','a','v',
+	0};
+
   wstring bell_file = new_cfg.bell_file;
   if (event == EVENT_REFRESH) {
     dlg_listbox_clear(ctrl);
     dlg_listbox_add_w(ctrl, NONE);
-    add_file_resources(ctrl, L"sounds/*.wav"); //  dlg_listbox_add_w(ctrl, L"...");
+    add_file_resources(ctrl, SOUNDS_WAV); //  dlg_listbox_add_w(ctrl, L"...");
     // strip std dir prefix...
     dlg_editbox_set_w(ctrl, *bell_file ? bell_file : NONE);
   }
@@ -1110,13 +1137,15 @@ bellfile_handler(control *ctrl, int event)
 static void
 theme_handler(control *ctrl, int event)
 {
-  const wstring NONE = L"◇ None ◇";  // ♢◇
-  const wstring CFG_NONE = L"";
+  const uint16_t NONE[] = {'%',' ','N','o','n','e',' ','%',0};
+  const uint16_t CFG_NONE[] = {0};
+  const uint16_t themes[] = {'t','h','e','m','e','s','/','*',0};
+
   wstring theme_file = new_cfg.theme_file;
   if (event == EVENT_REFRESH) {
     dlg_listbox_clear(ctrl);
     dlg_listbox_add_w(ctrl, NONE);
-    add_file_resources(ctrl, L"themes/*"); //  dlg_listbox_add_w(ctrl, L"...");
+    add_file_resources(ctrl, themes);
     dlg_editbox_set_w(ctrl, *theme_file ? theme_file : NONE);
   }
   else if (event == EVENT_VALCHANGE || event == EVENT_SELCHANGE) {
