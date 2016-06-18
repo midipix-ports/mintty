@@ -110,6 +110,11 @@ static inline int host_wcsncmp(const uint16_t *ws1, const uint16_t *ws2, size_t 
 	return 0;
 }
 
+static inline uint16_t *host_wcscpy(uint16_t *ws1, const uint16_t *ws2)
+{
+	return 0;
+}
+
 static inline uint16_t *host_wcsdup(const uint16_t *string)
 {
 	return 0;
