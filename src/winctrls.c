@@ -847,7 +847,7 @@ select_font(winctrl *c)
   lf.lfQuality = DEFAULT_QUALITY;
   lf.lfPitchAndFamily = FIXED_PITCH | FF_DONTCARE;
   if (host_wcslen(fs.name) < lengthof(lf.lfFaceName))
-    wcscpy(lf.lfFaceName, fs.name);
+    host_wcscpy(lf.lfFaceName, fs.name);
   else
     lf.lfFaceName[0] = 0;
 

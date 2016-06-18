@@ -611,7 +611,7 @@ load_theme(wstring theme)
     int len = host_wcslen(rcpat);
     rcpat = renewn(rcpat, len + host_wcslen(theme_file) + 2);
     rcpat[len++] = L'/';
-    wcscpy(&rcpat[len], theme_file);
+    host_wcscpy(&rcpat[len], theme_file);
     theme_file = rcpat;
     free_theme_file = true;
   }
@@ -1054,7 +1054,7 @@ add_file_resources(control *ctrl, wstring pattern)
   int len = host_wcslen(rcpat);
   rcpat = renewn(rcpat, len + host_wcslen(pattern) + 2);
   rcpat[len++] = L'/';
-  wcscpy(&rcpat[len], pattern);
+  host_wcscpy(&rcpat[len], pattern);
 
   wstring suf = host_wcsrchr(pattern, '.');
   int sufl = suf ? host_wcslen(suf) : 0;

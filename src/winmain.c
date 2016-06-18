@@ -199,7 +199,7 @@ win_prefix_title(const wstring prefix)
   int len = GetWindowTextLengthW(wnd);
   int plen = host_wcslen(prefix);
   wchar ptitle[plen + len + 1];
-  wcscpy(ptitle, prefix);
+  host_wcscpy(ptitle, prefix);
   wchar * title = & ptitle[plen];
   len = GetWindowTextW(wnd, title, len + 1);
   SetWindowTextW(wnd, ptitle);
@@ -713,9 +713,9 @@ win_bell(config * conf)
       int len = host_wcslen(rcpat);
       rcpat = renewn(rcpat, len + host_wcslen(bell_file) + 6);
       rcpat[len++] = L'/';
-      wcscpy(&rcpat[len], bell_file);
+      host_wcscpy(&rcpat[len], bell_file);
       len = host_wcslen(rcpat);
-      wcscpy(&rcpat[len], L".wav");
+      host_wcscpy(&rcpat[len], L".wav");
       bell_file = rcpat;
       free_bell_file = true;
     }
@@ -1614,9 +1614,9 @@ get_shortcut_icon_location(wchar * iconfile)
     }
 
     result = newn(wchar, host_wcslen(wenv) + host_wcslen(wicon) + host_wcslen(widx) + 1);
-    wcscpy(result, wenv);
-    wcscpy(&result[host_wcslen(result)], wicon);
-    wcscpy(&result[host_wcslen(result)], widx);
+    host_wcscpy(result, wenv);
+    host_wcscpy(&result[host_wcslen(result)], wicon);
+    host_wcscpy(&result[host_wcslen(result)], widx);
     if (* widx)
       free(widx);
     if (* wenv)

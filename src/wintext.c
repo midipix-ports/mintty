@@ -240,9 +240,9 @@ adjust_font_weights()
   swprintf(lf.lfFaceName, lengthof(lf.lfFaceName), L"%ls", cfg.font.name);
 #else
   if (host_wcslen(cfg.font.name) < lengthof(lf.lfFaceName))
-    wcscpy(lf.lfFaceName, cfg.font.name);
+    host_wcscpy(lf.lfFaceName, cfg.font.name);
   else
-    wcscpy(lf.lfFaceName, L"Lucida Console");
+    host_wcscpy(lf.lfFaceName, L"Lucida Console");
 #endif
   lf.lfPitchAndFamily = 0;
   //lf.lfCharSet = ANSI_CHARSET;   // report only ANSI character range
