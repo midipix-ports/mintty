@@ -4,6 +4,7 @@
 
 #define MAX_PATH	2048
 
+#define CERASE		0177
 #define	CNUL		0
 #define	CDEL		0377
 #define CTRL(x)		((x)&037)
