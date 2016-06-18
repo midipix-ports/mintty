@@ -705,7 +705,7 @@ win_bell(config * conf)
   if (conf->bell_sound || conf->bell_type) {
     wchar * bell_file = (wchar *)conf->bell_file;
     bool free_bell_file = false;
-    if (*bell_file && !wcschr(bell_file, L'/') && !wcschr(bell_file, L'\\')) {
+    if (*bell_file && !host_wcschr(bell_file, '/') && !host_wcschr(bell_file, '\\')) {
       string subfolder = ".mintty/sounds";
       char rcdir[strlen(home) + strlen(subfolder) + 2];
       sprintf(rcdir, "%s/%s", home, subfolder);
@@ -1592,7 +1592,7 @@ get_shortcut_icon_location(wchar * iconfile)
     /* Resolve leading Windows environment variable component.  */
     wchar * wenv = L"";
     wchar * fin;
-    if (wil[0] == '%' && wil[1] && wil[1] != '%' && (fin = wcschr(&wil[2], '%'))) {
+    if (wil[0] == '%' && wil[1] && wil[1] != '%' && (fin = host_wcschr(&wil[2], '%'))) {
       char var[fin - wil];
       char * cop = var;
       wchar * v;

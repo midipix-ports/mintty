@@ -123,6 +123,11 @@ static inline int host_wcswidth(uint16_t *wcs, size_t n)
 	return wcswidth(wcs, n);
 }
 
+static inline uint16_t * host_wcschr(const uint16_t *ws, uint16_t wc)
+{
+	return wcschr(ws,wc);
+}
+
 static inline uint16_t * host_wcsrchr(const uint16_t *ws, uint16_t wc)
 {
 	return wcsrchr(ws,wc);

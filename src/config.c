@@ -603,7 +603,7 @@ load_theme(wstring theme)
 {
   wchar * theme_file = (wchar *)theme;
   bool free_theme_file = false;
-  if (*theme && !wcschr(theme, L'/') && !wcschr(theme, L'\\')) {
+  if (*theme && !host_wcschr(theme, '/') && !host_wcschr(theme, '\\')) {
     string subfolder = ".mintty/themes";
     char rcdir[strlen(home) + strlen(subfolder) + 2];
     sprintf(rcdir, "%s/%s", home, subfolder);
