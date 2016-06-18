@@ -125,6 +125,11 @@ static inline size_t host_mbrtowc(uint16_t *pwc, const char *s, size_t n, mbstat
 	return 0;
 }
 
+static inline uint16_t * host_wcschr(const uint16_t *ws, uint16_t wc)
+{
+	return 0;
+}
+
 static inline uint16_t * host_wcsrchr(const uint16_t *ws, uint16_t wc)
 {
 	return 0;
