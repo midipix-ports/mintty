@@ -210,8 +210,8 @@ win_toggle_search(bool show, bool focus)
     });
 
     uint16_t BUTTON[] = {'B','U','T','T','O','N',0};
-    uint16_t LEFT[] = {'◀',0};
-    uint16_t RIGHT[] = {'▶',0};
+    uint16_t LEFT[] = {'<',0};
+    uint16_t RIGHT[] = {'>',0};
 
     search_wnd = CreateWindowEx(0, SEARCHBARCLASS, "", WS_CHILD, 0, 0, 0, 0, wnd, 0, inst, NULL);
 
