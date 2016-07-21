@@ -533,6 +533,7 @@ win_paste(void)
   CloseClipboard();
 }
 
+#ifndef __midipix__
 static volatile LONG dt_ref_count;
 
 static FORMATETC dt_format = { 0, null, DVASPECT_CONTENT, -1, TYMED_HGLOBAL };
@@ -643,3 +644,4 @@ win_init_drop_target(void)
   OleInitialize(null);
   RegisterDragDrop(wnd, &dt);
 }
+#endif
