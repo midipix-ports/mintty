@@ -41,6 +41,8 @@
 #define HAS_REAL_PASSWD_STRUCT	0
 #define HAS_PW_SHELL		0
 #define HAS_SUPPORTED_APPID	0
+#define HOST_DRAG_DROP_DISABLED 1
+
 
 static inline int min(int a, int b)
 {
