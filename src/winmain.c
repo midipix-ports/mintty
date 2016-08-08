@@ -30,6 +30,12 @@
 #include <propkey.h>
 #endif
 
+//temporary includes
+#include <winerror.h>
+#include <libloaderapi.h>
+#include <sysinfoapi.h>
+#include <utilapiset.h>
+#include <errhandlingapi.h>
 
 char * home;
 char * cmd;
