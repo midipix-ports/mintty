@@ -212,10 +212,11 @@ win_toggle_search(bool show, bool focus)
     uint16_t BUTTON[] = {'B','U','T','T','O','N',0};
     uint16_t LEFT[] = {'<',0};
     uint16_t RIGHT[] = {'>',0};
+    uint16_t X_[] = {'X', 0};
 
     search_wnd = CreateWindowEx(0, SEARCHBARCLASS, "", WS_CHILD, 0, 0, 0, 0, wnd, 0, inst, NULL);
 
-    search_close_wnd = CreateWindowExW(0, BUTTON, &(uint16_t){'X',0}, WS_CHILD | WS_VISIBLE,
+    search_close_wnd = CreateWindowExW(0, BUTTON, X_, WS_CHILD | WS_VISIBLE,
                                      pos_close, margin, button_width, ctrl_height,
                                      search_wnd, NULL, inst, NULL);
     search_prev_wnd = CreateWindowExW(0, BUTTON, LEFT, WS_CHILD | WS_VISIBLE,
