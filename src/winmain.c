@@ -1447,12 +1447,13 @@ show_msg(FILE *stream, string msg)
     MessageBox(0, msg, APPNAME, MB_OK);
 }
 
-static void
+/* TODO */
+/*static void
 show_msg_w(FILE *stream, wstring msg)
 {
   if (fprintf(stream, "%ls", msg) < 0 || fputs("\n", stream) < 0 || fflush(stream) < 0)
     MessageBoxW(0, msg, _W(APPNAME), MB_OK);
-}
+}*/
 
 static no_return __attribute__((format(printf, 1, 2)))
 error(char *format, ...)
@@ -1485,6 +1486,8 @@ warn(char *format, ...)
 static void
 warnw(wstring msg, wstring file, wstring err)
 {
+/* TODO */
+/*
 #if HAS_WSTRING
   wstring format = (err && *err) ? L"%s: %ls '%ls':\n%ls" : L"%s: %ls '%ls'";
   wchar mess[host_wcslen(format) + strlen(main_argv[0]) + host_wcslen(msg) + host_wcslen(file) + (err ?
@@ -1506,6 +1509,7 @@ host_wcslen(err) :
   free(_err);
   show_msg(stderr, mess);
 #endif
+*/
 }
 
 void
