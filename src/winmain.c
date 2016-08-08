@@ -2077,6 +2077,8 @@ main(int argc, char *argv[])
       ExtractIconExW(win_icon_file, icon_index, &large_icon, &small_icon, 1);
       free(win_icon_file);
     }
+    uint16_t ICON[] = {'C', 'o', 'u', 'l', 'd', ' ', 'n', 'o', 't', ' ', 'l', 'o', 'a', 'd', ' ', 'i', 'c', 'o', 'n', ' ', 'f', 'i', 'l', 'e', 0};
+    uint16_t EMPTY[] = {0};
     if (!large_icon) {
       small_icon = 0;
       uint err = GetLastError();
@@ -2088,10 +2090,10 @@ main(int argc, char *argv[])
           FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_MAX_WIDTH_MASK,
           0, err, 0, winmsg, wmlen, 0
         );
-        warnw(L"could not load icon file", cfg.icon, winmsg);
+        warnw(ICON, cfg.icon, winmsg);
       }
       else
-        warnw(L"could not load icon file", cfg.icon, L"");
+        warnw(ICON, cfg.icon, EMPTY);
     }
     delete(icon_file);
   }
@@ -2109,12 +2111,13 @@ main(int argc, char *argv[])
   inst = GetModuleHandle(NULL);
 
   // Window class name.
-  wstring wclass = _W(APPNAME);
+  uint16_t APPNAME1[] = {'m', 'i', 'n', 't', 't', 'y', 0};
+  uint16_t *wclass = APPNAME1;
   if (*cfg.class)
     wclass = cfg.class;
 
   // Put child command line into window title if we haven't got one already.
-  wstring wtitle = cfg.title;
+  uint16_t *wtitle = cfg.title;
   if (!*wtitle) {
     size_t len;
     char *argz;
@@ -2129,7 +2132,7 @@ main(int argc, char *argv[])
     }
     else {
       fputs("Using default title due to invalid characters in program name.\n", stderr);
-      wtitle = _W(APPNAME);
+      wtitle = APPNAME1;
     }
   }
 
