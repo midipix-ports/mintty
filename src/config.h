@@ -32,7 +32,7 @@ static inline uchar blue(colour c) { return c >> 16; }
 // Font properties.
 
 typedef struct {
-  wstring name;
+  uint16_t *name;
   int size;
   int weight;
   bool isbold;
@@ -45,7 +45,7 @@ typedef struct {
   // Looks
   colour fg_colour, bold_colour, bg_colour, cursor_colour;
   colour search_fg_colour, search_bg_colour, search_current_colour;
-  wstring theme_file;
+  uint16_t *theme_file;
   char transparency;
   bool blurred;
   bool opaque_when_focused;
@@ -98,33 +98,33 @@ typedef struct {
   string search_bar;
   // Terminal
   string term;
-  wstring answerback;
+  uint16_t *answerback;
   bool bell_sound;
   int bell_type;
-  wstring bell_file;
+  uint16_t *bell_file;
   int bell_freq;
   int bell_len;
   bool bell_flash;
   bool bell_taskbar;
-  wstring printer;
+  uint16_t *printer;
   bool confirm_exit;
   // Command line
-  wstring class;
+  uint16_t *class;
   char hold;
   bool exit_write;
-  wstring exit_title;
-  wstring icon;
-  wstring log;
-  wstring title;
+  uint16_t *exit_title;
+  uint16_t *icon;
+  uint16_t *log;
+  uint16_t *title;
   bool futmp;
   char window;
   int x, y;
   bool daemonize;
   bool daemonize_always;
   // "Hidden"
-  wstring app_id;
-  wstring app_name;
-  wstring app_launch_cmd;
+  uint16_t *app_id;
+  uint16_t *app_name;
+  uint16_t *app_launch_cmd;
   int col_spacing, row_spacing;
   int padding;
   string word_chars;
