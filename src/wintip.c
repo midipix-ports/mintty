@@ -5,6 +5,8 @@
 
 #include "winpriv.h"
 
+#include <windef.h>
+
 static ATOM tip_class;
 static HFONT tip_font;
 static COLORREF tip_bg;

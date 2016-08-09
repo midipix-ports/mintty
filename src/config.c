@@ -18,7 +18,7 @@
 
 static wstring rc_filename = 0;
 
-static const uint16_t fntname_lucida[] = {
+static uint16_t fntname_lucida[] = {
 	'L','u','c','i','d','a',' ',
 	'C','o','n','s','o','l','e',
 	0};
@@ -881,21 +881,21 @@ current_size_handler(control *unused(ctrl), int event)
 static void
 printer_handler(control *ctrl, int event)
 {
-  const uint16_t NONE[] = {
+  uint16_t NONE[] = {
 	'%',' ','N','o','n','e',' ',
 	'(','p','r','i','n','t','i','n','g',
 	' ','d','i','s','a','b','l','e','d',')',' ','%',
 	0};
 
-  const uint16_t DEFAULT[] = {
+  uint16_t DEFAULT[] = {
 	'*',' ','D','e','f','a','u','l','t',
 	' ','p','r','i','n','t','e','r',' ','*',
 	0};
 
-  const uint16_t CFG_NONE[]    = {0};
-  const uint16_t CFG_DEFAULT[] = {'*',0};
+  uint16_t CFG_NONE[]    = {0};
+  uint16_t CFG_DEFAULT[] = {'*',0};
 
-  wstring printer = new_cfg.printer;
+  uint16_t *printer = new_cfg.printer;
 
   if (event == EVENT_REFRESH) {
     dlg_listbox_clear(ctrl);
@@ -1103,15 +1103,15 @@ add_file_resources(control *ctrl, wstring pattern)
 static void
 bellfile_handler(control *ctrl, int event)
 {
-  const uint16_t NONE[] = {
+  uint16_t NONE[] = {
 	'%',' ','N','o','n','e',
 	' ','(','s','y','s','t','e','m',
 	' ','s','o','u','n','d',')',' ','%',
 	0};
 
-  const uint16_t CFG_NONE[] = {0};
+  uint16_t CFG_NONE[] = {0};
 
-  const uint16_t SOUNDS_WAV[] = {
+  uint16_t SOUNDS_WAV[] = {
 	's','o','u','n','d','s',
 	'/','*','.','w','a','v',
 	0};
@@ -1141,7 +1141,7 @@ theme_handler(control *ctrl, int event)
   const uint16_t CFG_NONE[] = {0};
   const uint16_t themes[] = {'t','h','e','m','e','s','/','*',0};
 
-  wstring theme_file = new_cfg.theme_file;
+  uint16_t *theme_file = new_cfg.theme_file;
   if (event == EVENT_REFRESH) {
     dlg_listbox_clear(ctrl);
     dlg_listbox_add_w(ctrl, NONE);

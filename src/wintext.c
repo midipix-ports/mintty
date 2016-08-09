@@ -34,12 +34,12 @@ static int row_spacing;
 enum {LDRAW_CHAR_NUM = 31, LDRAW_CHAR_TRIES = 4};
 
 // VT100 linedraw character mappings for current font.
-wchar win_linedraw_chars[LDRAW_CHAR_NUM];
+uint16_t win_linedraw_chars[LDRAW_CHAR_NUM];
 
 // Possible linedraw character mappings, in order of decreasing suitability.
 // The last resort for each is an ASCII character, which we assume will be
 // available in any font.
-static const wchar linedraw_chars[LDRAW_CHAR_NUM][LDRAW_CHAR_TRIES] = {
+static uint16_t linedraw_chars[LDRAW_CHAR_NUM][LDRAW_CHAR_TRIES] = {
   {0x25C6, 0x2666, '*'},           // 0x60 '`' Diamond
   {0x2592, '#'},                   // 0x61 'a' Checkerboard (error)
   {0x2409, 0x2192, 0x01AD, 't'},   // 0x62 'b' Horizontal tab
@@ -206,12 +206,13 @@ row_padding(int i, int e)
 #endif
 
 static void
-show_msg(wstring msg, wstring title)
+show_msg(uint16_t *msg, uint16_t *title)
 {
-  if (fprintf(stderr, "%ls", title) < 0 || fputs("\n", stderr) < 0 ||
+  /* TODO */
+  /*if (fprintf(stderr, "%ls", title) < 0 || fputs("\n", stderr) < 0 ||
       fprintf(stderr, "%ls", msg) < 0 || fputs("\n", stderr) < 0 ||
       fflush(stderr) < 0)
-    MessageBoxW(0, msg, title, MB_ICONWARNING);
+    MessageBoxW(0, msg, title, MB_ICONWARNING);*/
 }
 
 #ifndef TCI_SRCLOCALE
@@ -237,7 +238,8 @@ adjust_font_weights()
 {
   LOGFONTW lf;
 #if HAS_WCTYPE_H
-  swprintf(lf.lfFaceName, lengthof(lf.lfFaceName), L"%ls", cfg.font.name);
+   uint16_t adjust_font_name[] = {'%', 'l', 's', 0};
+   host_swprintf(lf.lfFaceName, lengthof(lf.lfFaceName), adjust_font_name, cfg.font.name);
 #else
   if (host_wcslen(cfg.font.name) < lengthof(lf.lfFaceName))
     host_wcscpy(lf.lfFaceName, cfg.font.name);
@@ -294,14 +296,16 @@ adjust_font_weights()
 
   // check if no font found
   if (!font_found) {
-    show_msg(L"Font not found, using system substitute", cfg.font.name);
+    uint16_t FONT_MISSING[] = {'F', 'o', 'n', 't', ' ', 'n', 'o', 't', ' ', 'f', 'o', 'n', 'u', 'd', ',', ' ', 'u', 's', 'i', 'n', 'g', ' ', 's', 'y', 's', 't', 'e', 'm', ' ', 's', 'u', 'b', 's', 't', 'i', 't', 'u', 't', 'e', 0};
+    show_msg(FONT_MISSING, cfg.font.name);
     fw_norm = 400;
     fw_bold = 700;
     trace_font(("//\n"));
     return;
   }
   if (!ansi_found && !cs_found) {
-    show_msg(L"Font has limited support for character ranges", cfg.font.name);
+    uint16_t FONT_INCOMPLETE[] = {'F', 'o', 'n', 't', ' ', 'h', 'a', 's', ' ', 'l', 'i', 'm', 'i', 't', 'e', 'd', ' ', 's', 'u', 'p', 'p', 'o', 'r', 't', ' ', 'f', 'o', 'r', ' ', 'c', 'h', 'a', 'r', 'a', 'c', 't', 'e', 'r', ' ', 'r', 'a', 'n', 'g', 'e', 's', 0};
+    show_msg(FONT_INCOMPLETE, cfg.font.name);
   }
 
   // find available widths closest to selected widths

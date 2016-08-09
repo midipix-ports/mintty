@@ -13,6 +13,9 @@
 
 #include <commctrl.h>
 
+//temporary include
+#include <minwindef.h>
+
 void setup_config_box(controlbox *);
 
 /*
@@ -333,7 +336,7 @@ win_show_about(void)
 }
 
 void
-win_show_error(wchar *wmsg)
+win_show_error(uint16_t *wmsg)
 {
   MessageBoxW(0, wmsg, 0, MB_ICONERROR);
 }

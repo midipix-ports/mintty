@@ -30,6 +30,12 @@
 #include <propkey.h>
 #endif
 
+//temporary includes
+#include <winerror.h>
+#include <libloaderapi.h>
+#include <sysinfoapi.h>
+#include <utilapiset.h>
+#include <errhandlingapi.h>
 
 char * home;
 char * cmd;
@@ -241,7 +247,7 @@ win_restore_title(void)
 {
   if (!titles_i)
     titles_i = lengthof(titles);
-  wstring title = titles[--titles_i];
+  uint16_t *title = titles[--titles_i];
   if (title) {
     SetWindowTextW(wnd, title);
     delete(title);
@@ -715,7 +721,8 @@ win_bell(config * conf)
       rcpat[len++] = L'/';
       host_wcscpy(&rcpat[len], bell_file);
       len = host_wcslen(rcpat);
-      host_wcscpy(&rcpat[len], L".wav");
+      uint16_t WAV[] = {'.', 'w', 'a', 'v', 0};
+      host_wcscpy(&rcpat[len], WAV);
       bell_file = rcpat;
       free_bell_file = true;
     }
@@ -1440,12 +1447,13 @@ show_msg(FILE *stream, string msg)
     MessageBox(0, msg, APPNAME, MB_OK);
 }
 
-static void
+/* TODO */
+/*static void
 show_msg_w(FILE *stream, wstring msg)
 {
   if (fprintf(stream, "%ls", msg) < 0 || fputs("\n", stream) < 0 || fflush(stream) < 0)
     MessageBoxW(0, msg, _W(APPNAME), MB_OK);
-}
+}*/
 
 static no_return __attribute__((format(printf, 1, 2)))
 error(char *format, ...)
@@ -1478,6 +1486,8 @@ warn(char *format, ...)
 static void
 warnw(wstring msg, wstring file, wstring err)
 {
+/* TODO */
+/*
 #if HAS_WSTRING
   wstring format = (err && *err) ? L"%s: %ls '%ls':\n%ls" : L"%s: %ls '%ls'";
   wchar mess[host_wcslen(format) + strlen(main_argv[0]) + host_wcslen(msg) + host_wcslen(file) + (err ?
@@ -1499,6 +1509,7 @@ host_wcslen(err) :
   free(_err);
   show_msg(stderr, mess);
 #endif
+*/
 }
 
 void
@@ -2066,6 +2077,8 @@ main(int argc, char *argv[])
       ExtractIconExW(win_icon_file, icon_index, &large_icon, &small_icon, 1);
       free(win_icon_file);
     }
+    uint16_t ICON[] = {'C', 'o', 'u', 'l', 'd', ' ', 'n', 'o', 't', ' ', 'l', 'o', 'a', 'd', ' ', 'i', 'c', 'o', 'n', ' ', 'f', 'i', 'l', 'e', 0};
+    uint16_t EMPTY[] = {0};
     if (!large_icon) {
       small_icon = 0;
       uint err = GetLastError();
@@ -2077,10 +2090,10 @@ main(int argc, char *argv[])
           FORMAT_MESSAGE_FROM_SYSTEM | FORMAT_MESSAGE_MAX_WIDTH_MASK,
           0, err, 0, winmsg, wmlen, 0
         );
-        warnw(L"could not load icon file", cfg.icon, winmsg);
+        warnw(ICON, cfg.icon, winmsg);
       }
       else
-        warnw(L"could not load icon file", cfg.icon, L"");
+        warnw(ICON, cfg.icon, EMPTY);
     }
     delete(icon_file);
   }
@@ -2098,12 +2111,13 @@ main(int argc, char *argv[])
   inst = GetModuleHandle(NULL);
 
   // Window class name.
-  wstring wclass = _W(APPNAME);
+  uint16_t APPNAME1[] = {'m', 'i', 'n', 't', 't', 'y', 0};
+  uint16_t *wclass = APPNAME1;
   if (*cfg.class)
     wclass = cfg.class;
 
   // Put child command line into window title if we haven't got one already.
-  wstring wtitle = cfg.title;
+  uint16_t *wtitle = cfg.title;
   if (!*wtitle) {
     size_t len;
     char *argz;
@@ -2118,7 +2132,7 @@ main(int argc, char *argv[])
     }
     else {
       fputs("Using default title due to invalid characters in program name.\n", stderr);
-      wtitle = _W(APPNAME);
+      wtitle = APPNAME1;
     }
   }
 

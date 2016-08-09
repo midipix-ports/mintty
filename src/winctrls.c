@@ -14,6 +14,9 @@
 #define _OLE2_H
 #include <commdlg.h>
 
+//temporary
+#include <minwindef.h>
+
 /*
  * winctrls.c: routines to self-manage the controls in a dialog
  * box.
@@ -1165,7 +1168,7 @@ dlg_editbox_set(control *ctrl, string text)
 }
 
 void
-dlg_editbox_set_w(control *ctrl, wstring text)
+dlg_editbox_set_w(control *ctrl, uint16_t *text)
 {
   winctrl *c = ctrl->plat_ctrl;
   assert(c &&
@@ -1314,13 +1317,16 @@ dlg_fontsel_set(control *ctrl, font_spec *fs)
 #if HAS_WCTYPE_H
   int wsize = host_wcslen(fs->name) + strlen(boldstr) + fs->size ? 31 : 17;
   wchar * wbuf = newn(wchar, wsize);
-  if (fs->size)
-    swprintf(wbuf, wsize, L"%ls, %s%d%s", fs->name, boldstr, abs(fs->size),
-             fs->size < 0 ? "px" : "pt");
-  else
-    swprintf(wbuf, wsize, L"%ls, %sdefault size", fs->name, boldstr);
-  SetDlgItemTextW(dlg.wnd, c->base_id + 1, wbuf);
-  free(wbuf);
+  if (fs->size) {
+           uint16_t VARIABLE1[] = {'%', 'l', 's', ',', ' ', '%', 's', '%', 'd', '%', 's', 0};
+           host_swprintf(wbuf, wsize, VARIABLE1, fs->name, boldstr, abs(fs->size),
+           fs->size < 0 ? "px" : "pt");
+  } else {
+           uint16_t VARIABLE2[] = {'%', 'l', 's', ',', ' ', '%', 's', 'd', 'e', 'f', 'a', 'u', 'l', 't', ' ', 's', 'i', 'z', 'e', 0};
+           host_swprintf(wbuf, wsize, VARIABLE2, fs->name, boldstr);
+           SetDlgItemTextW(dlg.wnd, c->base_id + 1, wbuf);
+           free(wbuf);
+  }
 #else
   // no swprintf, don't like to fiddle label together for old MinGW
   char * fn = cs__wcstombs(fs->name);
