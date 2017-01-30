@@ -206,11 +206,11 @@ row_padding(int i, int e)
 #endif
 
 static void
-show_msg(wstring msg, wstring title)
+show_msg(const uint16_t *msg, const uint16_t *title)
 {
-  if (fprintf(stderr, "%ls", title) < 0 || fputs("\n", stderr) < 0 ||
+  /*if (fprintf(stderr, "%ls", title) < 0 || fputs("\n", stderr) < 0 ||
       fprintf(stderr, "%ls", msg) < 0 || fputs("\n", stderr) < 0 ||
-      fflush(stderr) < 0)
+      fflush(stderr) < 0)*/ /* fix me */
     MessageBoxW(0, msg, title, MB_ICONWARNING);
 }
 
