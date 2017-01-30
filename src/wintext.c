@@ -294,14 +294,16 @@ adjust_font_weights()
 
   // check if no font found
   if (!font_found) {
-    show_msg(L"Font not found, using system substitute", cfg.font.name);
+    uint16_t FONT_MISSING[] = {'F', 'o', 'n', 't', ' ', 'n', 'o', 't', ' ', 'f', 'o', 'n', 'u', 'd', ',', ' ', 'u', 's', 'i', 'n', 'g', ' ', 's', 'y', 's', 't', 'e', 'm', ' ', 's', 'u', 'b', 's', 't', 'i', 't', 'u', 't', 'e', 0};
+    show_msg(FONT_MISSING, cfg.font.name);
     fw_norm = 400;
     fw_bold = 700;
     trace_font(("//\n"));
     return;
   }
   if (!ansi_found && !cs_found) {
-    show_msg(L"Font has limited support for character ranges", cfg.font.name);
+    uint16_t FONT_INCOMPLETE[] = {'F', 'o', 'n', 't', ' ', 'h', 'a', 's', ' ', 'l', 'i', 'm', 'i', 't', 'e', 'd', ' ', 's', 'u', 'p', 'p', 'o', 'r', 't', ' ', 'f', 'o', 'r', ' ', 'c', 'h', 'a', 'r', 'a', 'c', 't', 'e', 'r', ' ', 'r', 'a', 'n', 'g', 'e', 's', 0};
+    show_msg(FONT_INCOMPLETE, cfg.font.name);
   }
 
   // find available widths closest to selected widths
