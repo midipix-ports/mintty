@@ -1490,7 +1490,7 @@ warnw(wstring msg, wstring file, wstring err)
   wchar mess[host_wcslen(format) + strlen(main_argv[0]) + host_wcslen(msg) + host_wcslen(file) + (err ?
 host_wcslen(err) :
 0)];
-  swprintf(mess, lengthof(mess), format, main_argv[0], msg, file, err);
+  host_swprintf(mess, lengthof(mess), format, main_argv[0], msg, file, err);
   show_msg_w(stderr, mess);
 #else
   //MinGW
