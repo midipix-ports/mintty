@@ -100,7 +100,7 @@ win_copy(const wchar *data, uint *attrs, int len)
     wchar unitab[256];
     char *rtf = null;
     uchar *tdata = (uchar *) lock2;
-    wchar *udata = (wchar_t *) lock;
+    wchar *udata = (uint16_t *) lock;
     int rtflen = 0, uindex = 0, tindex = 0;
     int rtfsize = 0;
     int multilen, blen, alen, totallen;
