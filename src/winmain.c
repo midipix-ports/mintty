@@ -30,6 +30,12 @@
 #include <propkey.h>
 #endif
 
+/* temporary midipix includes */
+#include <sysinfoapi.h>
+#include <libloaderapi.h>
+#include <errhandlingapi.h>
+#include <winerror.h>
+#include <utilapiset.h>
 
 char * home;
 char * cmd;
