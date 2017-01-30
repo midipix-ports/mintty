@@ -163,3 +163,9 @@ static inline int host_utf16_to_mbstr(
 {
 	return 0;
 }
+
+static inline int host_swprintf(uint16_t *wcs, size_t maxlen,
+             const uint16_t *format, ...)
+{
+	return 0;
+}
