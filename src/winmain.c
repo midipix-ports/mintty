@@ -721,7 +721,8 @@ win_bell(config * conf)
       rcpat[len++] = L'/';
       host_wcscpy(&rcpat[len], bell_file);
       len = host_wcslen(rcpat);
-      host_wcscpy(&rcpat[len], L".wav");
+      uint16_t WAV[] = {'.', 'w', 'a', 'v', 0};
+      host_wcscpy(&rcpat[len], WAV);
       bell_file = rcpat;
       free_bell_file = true;
     }
