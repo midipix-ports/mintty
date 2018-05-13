@@ -704,7 +704,12 @@ win_open_config(void)
 
   static bool initialised = false;
   if (!initialised) {
-    InitCommonControls();
+    INITCOMMONCONTROLSEX ccex;
+    ccex.dwSize = sizeof(ccex);
+    ccex.dwICC = ICC_TREEVIEW_CLASSES;
+    if (!InitCommonControlsEx(&ccex)) {
+      fprintf(stderr, "InitCommonControlsEx failed: 0x%x\n", GetLastError());
+    }
     RegisterClassW(&(WNDCLASSW){
       .lpszClassName = W(DIALOG_CLASS),
       .lpfnWndProc = DefDlgProcW,
