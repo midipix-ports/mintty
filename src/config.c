@@ -1575,6 +1575,10 @@ add_file_resources(control *ctrl, wstring pattern)
   int ok = false;
   for (int i = last_config_dir; i >= 0; i--) {
     wchar * rcpat = path_posix_to_win_w(config_dirs[i]);
+    if (rcpat == NULL) {
+      fprintf(stderr, "could not convert POSIX path '%s' to Windows: %m\n", config_dirs[i]);
+      continue;
+    }
     int len = wcslen(rcpat);
     rcpat = renewn(rcpat, len + wcslen(pattern) + 2);
     rcpat[len++] = L'/';
