@@ -529,12 +529,8 @@ win_gotab(uint n)
 #endif
 }
 
-static void
-win_synctabs(int level)
-{
-  BOOL CALLBACK wnd_enum_tabs(HWND curr_wnd, LPARAM lp)
+  BOOL CALLBACK wnd_enum_tabs(HWND curr_wnd, LPARAM level)
   {
-    (void)lp;
     WINDOWINFO curr_wnd_info;
     curr_wnd_info.cbSize = sizeof(WINDOWINFO);
     GetWindowInfo(curr_wnd, &curr_wnd_info);
@@ -558,8 +554,12 @@ win_synctabs(int level)
     }
     return true;
   }
+
+static void
+win_synctabs(int level)
+{
   if (cfg.geom_sync >= level)
-    EnumWindows(wnd_enum_tabs, 0);
+    EnumWindows(wnd_enum_tabs, level);
 }
 
 static void
