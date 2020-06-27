@@ -48,20 +48,21 @@ append_commands(HMENU menu, wstring commands, UINT_PTR idm_cmd)
   free(cmds);
 }
 
-static void
-add_switcher(HMENU menu, bool vsep, bool hsep, bool use_win_icons)
-{
-  uint bar = vsep ? MF_MENUBARBREAK : 0;
-  //__ Context menu, session switcher ("virtual tabs")
-  if (hsep)
-    AppendMenuW(menu, MF_SEPARATOR, 0, 0);
-  AppendMenuW(menu, MF_DISABLED | bar, 0, _W("Session switcher"));
-  AppendMenuW(menu, MF_SEPARATOR, 0, 0);
-  int tabi = 0;
-  clear_tabs();
 
-  BOOL CALLBACK wnd_enum_tabs(HWND curr_wnd, LPARAM menu)
+struct wnd_enum_tabs_ctx {
+  LPARAM menu;
+  int use_win_icons;
+};
+
+
+  BOOL CALLBACK wnd_enum_tabs_input(HWND curr_wnd, LPARAM lparam)
   {
+    int tabi = 0;
+    struct wnd_enum_tabs_ctx * ctx = (struct wnd_enum_tabs_ctx *)lparam;
+
+    LPARAM menu = ctx->menu;
+    int use_win_icons = ctx->use_win_icons;
+
     WINDOWINFO curr_wnd_info;
     curr_wnd_info.cbSize = sizeof(WINDOWINFO);
     GetWindowInfo(curr_wnd, &curr_wnd_info);
@@ -140,7 +141,27 @@ add_switcher(HMENU menu, bool vsep, bool hsep, bool use_win_icons)
     return true;
   }
 
-  EnumWindows(wnd_enum_tabs, (LPARAM)menu);
+
+
+
+static void
+add_switcher(HMENU menu, bool vsep, bool hsep, bool use_win_icons)
+{
+
+  struct wnd_enum_tabs_ctx ctx;
+
+  ctx.menu = (LPARAM)menu;
+  ctx.use_win_icons = use_win_icons;
+
+  uint bar = vsep ? MF_MENUBARBREAK : 0;
+  //__ Context menu, session switcher ("virtual tabs")
+  if (hsep)
+    AppendMenuW(menu, MF_SEPARATOR, 0, 0);
+  AppendMenuW(menu, MF_DISABLED | bar, 0, _W("Session switcher"));
+  AppendMenuW(menu, MF_SEPARATOR, 0, 0);
+  clear_tabs();
+
+  EnumWindows(wnd_enum_tabs_input, (LPARAM)&ctx);
 }
 
 static bool
